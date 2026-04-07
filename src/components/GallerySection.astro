@@ -1,0 +1,53 @@
+---
+import HeadingTitle from './HeadingTitle.astro';
+
+/* =========================
+   SECTION CONFIG
+========================= */
+const section = {
+  id: 'gallery',
+  title: 'Engagement Photos',
+};
+
+/* =========================
+   GALLERY DATA
+========================= */
+type GalleryItem = {
+  src: string;
+  alt: string;
+};
+
+const galleryItems: GalleryItem[] = [
+  { src: '/img/gallery1.jpg', alt: 'Engagement Photo 1' },
+  { src: '/img/gallery2.jpg', alt: 'Engagement Photo 2' },
+  { src: '/img/gallery3.jpg', alt: 'Engagement Photo 3' },
+  { src: '/img/gallery4.jpg', alt: 'Engagement Photo 4' },
+  { src: '/img/gallery5.jpg', alt: 'Engagement Photo 5' },
+  { src: '/img/gallery6.jpg', alt: 'Engagement Photo 6' },
+  { src: '/img/gallery7.jpg', alt: 'Engagement Photo 7' },
+  { src: '/img/gallery8.jpg', alt: 'Engagement Photo 8' },
+];
+---
+
+<section id={section.id} class="py-20 md:py-24 bg-ivory">
+  <div class="max-w-7xl mx-auto px-4">
+    <!-- Heading -->
+    <HeadingTitle title={section.title} />
+
+    <!-- Gallery Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      {galleryItems.map((item: GalleryItem) => (
+        <div class="relative pb-[100%] overflow-hidden group">
+          <a href={item.src} class="glightbox">
+            <img
+              src={item.src}
+              alt={item.alt}
+              class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              loading="lazy"
+            />
+          </a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

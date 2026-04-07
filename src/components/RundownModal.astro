@@ -1,0 +1,91 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface RundownItem {
+  time: string;
+  period?: string;
+  icon: string; // astro-icon name
+  title: string;
+  description: string;
+}
+
+export interface RundownModalProps {
+  title?: string;
+  subtitle?: string;
+  timeline?: RundownItem[];
+}
+
+const {
+  title = 'Day Timeline',
+  subtitle = "Here's how our special day will unfold",
+  timeline = [
+    {
+      time: '3:45',
+      period: 'PM',
+      icon: 'bi:door-open',
+      title: 'Guest Arrival',
+      description: 'Please arrive and find your seats at Rose Garden Estate',
+    },
+    {
+      time: '4:00',
+      period: 'PM',
+      icon: 'bi:heart-fill',
+      title: 'Ceremony Begins',
+      description: 'Exchange of vows and rings',
+    },
+    {
+      time: '6:30',
+      period: 'PM',
+      icon: 'bi:stars',
+      title: 'Reception Begins',
+      description: 'Grand entrance and first dance',
+    },
+  ],
+} = Astro.props;
+---
+
+<div
+  x-show="showModal"
+  x-cloak
+  @click="showModal = false"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
+  style="display: none;"
+>
+  <div
+    @click.stop
+    class="bg-white p-10 max-w-5xl w-full rounded-xl shadow-2xl max-h-[90vh] overflow-y-auto relative"
+  >
+    <button
+      @click="showModal = false"
+      class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-sage/10 hover:bg-sage/20"
+    >
+      <Icon name="bi:x-lg" class="w-5 h-5 text-botanical" />
+    </button>
+
+    <div class="text-center mb-10">
+      <Icon name="bi:clock-history" class="w-10 h-10 text-sage mx-auto mb-3" />
+      <h3 class="font-serif text-3xl font-semibold text-botanical">{title}</h3>
+      <p class="text-gray-600 mt-2">{subtitle}</p>
+    </div>
+
+    <div class="space-y-6">
+      {timeline.map((item: RundownItem) => (
+        <div class="flex items-start gap-6">
+          <div class="bg-sage text-white rounded-full w-16 h-16 flex items-center justify-center font-semibold shadow-lg">
+            {item.time}
+            <br />
+            <span class="text-xs">{item.period}</span>
+          </div>
+
+          <div class="bg-mist/30 p-5 rounded-lg flex-1">
+            <div class="flex items-center gap-2 mb-2">
+              <Icon name={item.icon} class="w-5 h-5 text-sage" />
+              <h4 class="font-semibold text-botanical text-lg">{item.title}</h4>
+            </div>
+            <p class="text-gray-600">{item.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>

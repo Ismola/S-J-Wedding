@@ -1,0 +1,104 @@
+---
+export interface CountdownProps {
+  targetDate?: string; // ISO string
+  labels?: {
+    days: string;
+    hours: string;
+    minutes: string;
+    seconds: string;
+  };
+  completedMessage?: string;
+}
+
+// Default props
+const {
+  targetDate = '2026-06-15T15:00:00',
+  labels = {
+    days: 'Days',
+    hours: 'Hours',
+    minutes: 'Minutes',
+    seconds: 'Seconds',
+  },
+  completedMessage = '🎉 The wedding ceremony was successfully',
+} = Astro.props;
+
+const countdownId = `countdown-${Math.random().toString(36).slice(2)}`;
+---
+
+<div>
+  <!-- Countdown -->
+  <div id={countdownId} class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+    {(
+      [
+        { key: 'days', label: labels.days },
+        { key: 'hours', label: labels.hours },
+        { key: 'minutes', label: labels.minutes },
+        { key: 'seconds', label: labels.seconds },
+      ] as const
+    ).map(
+      (
+        item: { key: 'days' | 'hours' | 'minutes' | 'seconds'; label: string }
+      ) => (
+        <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20">
+          <div class="text-center">
+            <div
+              data-unit={item.key}
+              class="text-5xl md:text-6xl font-bold text-white mb-2"
+            >
+              00
+            </div>
+            <div class="text-sm md:text-base text-gray-300 uppercase tracking-wider">
+              {item.label}
+            </div>
+          </div>
+        </div>
+      )
+    )}
+  </div>
+
+  <!-- Completed Message -->
+  <div data-message class="hidden mt-8 text-center">
+    <p class="text-2xl md:text-3xl font-bold text-white">
+      {completedMessage}
+    </p>
+  </div>
+</div>
+
+<script define:vars={{ targetDate, countdownId }}>
+  const targetTime = new Date(targetDate).getTime();
+
+  const container = document.getElementById(countdownId);
+  if (!container) return;
+
+  const message = container.parentElement?.querySelector('[data-message]');
+  const elements = {
+    days: container.querySelector('[data-unit="days"]'),
+    hours: container.querySelector('[data-unit="hours"]'),
+    minutes: container.querySelector('[data-unit="minutes"]'),
+    seconds: container.querySelector('[data-unit="seconds"]'),
+  };
+
+  const pad = (n) => (n < 10 ? '0' + n : n);
+
+  const timer = setInterval(() => {
+    const now = Date.now();
+    const distance = targetTime - now;
+
+    if (distance <= 0) {
+      clearInterval(timer);
+      container.classList.add('hidden');
+      message?.classList.remove('hidden');
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((distance / (1000 * 60)) % 60);
+    const seconds = Math.floor((distance / 1000) % 60);
+
+    elements.days.textContent = pad(days);
+    elements.hours.textContent = pad(hours);
+    elements.minutes.textContent = pad(minutes);
+    elements.seconds.textContent = pad(seconds);
+  }, 1000);
+</script>

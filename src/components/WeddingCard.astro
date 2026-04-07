@@ -1,0 +1,99 @@
+---
+/**
+ * WeddingCard.astro
+ */
+
+import { Icon } from 'astro-icon/components';
+
+export interface CardItem {
+  icon: string; // contoh: "bi:calendar-event"
+  label: string;
+  title: string;
+  subtitle?: string;
+  description?: string;
+}
+
+export interface WeddingCardProps {
+  image: string;
+  imageAlt?: string;
+  title: string;
+  tagline?: string;
+  headerIcon?: string; // astro-icon name
+  items: CardItem[];
+  mapUrl?: string;
+}
+
+const {
+  image,
+  imageAlt = '',
+  title,
+  tagline,
+  headerIcon = 'bi:heart-fill',
+  items,
+  mapUrl = 'https://maps.google.com',
+} = Astro.props;
+---
+
+<div class="bg-white rounded-xl shadow-sm border border-mist overflow-hidden hover:shadow-2xl transition-all duration-300">
+  <!-- Image -->
+  <div class="relative overflow-hidden group">
+    <img
+      src={image}
+      alt={imageAlt}
+      loading="lazy"
+      class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+    />
+    <div class="absolute inset-0 bg-linear-to-t from-dark/80 via-botanical/50 to-transparent"></div>
+
+    <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+      <div class="flex items-center gap-3 mb-2">
+        <Icon name={headerIcon} class="w-6 h-6" />
+        <h3 class="font-serif text-4xl font-semibold">{title}</h3>
+      </div>
+      {tagline && <p class="text-white/90 text-sm">{tagline}</p>}
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="p-8 space-y-5">
+    {items.map((item: CardItem) => (
+      <div class="flex items-start gap-4 pb-5 border-b last:border-0 border-mist">
+        <div class="bg-sage/10 p-3 rounded-lg shrink-0">
+          <Icon name={item.icon} class="w-6 h-6 text-sage" />
+        </div>
+
+        <div>
+          <p class="text-xs uppercase tracking-wider text-sage font-semibold mb-1">
+            {item.label}
+          </p>
+          <p class="text-lg font-semibold text-botanical">{item.title}</p>
+          {item.subtitle && (
+            <p class="text-sm text-gray-500 mt-1">{item.subtitle}</p>
+          )}
+          {item.description && (
+            <p class="text-gray-600 mt-2">{item.description}</p>
+          )}
+        </div>
+      </div>
+    ))}
+
+    <div class="mt-8 flex gap-3">
+      <a
+        href={mapUrl}
+        target="_blank"
+        class="flex items-center py-3 px-6 bg-botanical text-white gap-2 rounded-lg hover:bg-botanical/90"
+      >
+        <Icon name="bi:map" class="w-5 h-5" />
+        Get Directions
+      </a>
+
+      <button
+        @click="$dispatch('open-rundown')"
+        class="flex items-center gap-2 border-2 border-botanical text-botanical px-6 py-3 rounded-lg hover:bg-botanical hover:text-white transition-all"
+      >
+        <Icon name="bi:send" class="w-5 h-5" />
+        Rundown
+      </button>
+    </div>
+  </div>
+</div>

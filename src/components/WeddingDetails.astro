@@ -1,0 +1,259 @@
+---
+import WeddingCard from './WeddingCard.astro';
+import RundownModal from './RundownModal.astro';
+import { Icon } from 'astro-icon/components';
+import HeadingTitle from './HeadingTitle.astro';
+
+/* =========================
+   SECTION CONFIG
+========================= */
+const section = {
+  id: 'details',
+  title: 'Wedding Details',
+  description:
+    'Join us for a day of celebration filled with love, laughter, and unforgettable memories',
+};
+
+/* =========================
+   WEDDING CARDS
+========================= */
+const weddingCards = [
+  {
+    image: '/img/hero.jpg',
+    imageAlt: 'Rose Garden',
+    title: 'Ceremony',
+    tagline: 'Where two hearts become one',
+    headerIcon: 'bi:heart-fill',
+    mapUrl: 'https://maps.google.com',
+    items: [
+      {
+        icon: 'bi:calendar-event',
+        label: 'Date',
+        title: 'Saturday, June 15, 2026',
+        subtitle: 'Summer Season',
+      },
+      {
+        icon: 'bi:clock',
+        label: 'Time',
+        title: '4:00 PM',
+        subtitle: 'Please arrive 15 minutes early',
+      },
+      {
+        icon: 'bi:geo-alt-fill',
+        label: 'Venue',
+        title: 'Rose Garden Estate',
+        description: '1234 Bloom Street\nPortland, OR 97201',
+      },
+      {
+        icon: 'bi:hourglass-split',
+        label: 'Duration',
+        title: '45 minutes',
+        subtitle: 'Outdoor garden ceremony',
+      },
+    ],
+  },
+  {
+    image: '/img/ballroom.jpg',
+    imageAlt: 'Grand Ballroom',
+    title: 'Reception',
+    tagline: 'Celebrate with us in elegance',
+    headerIcon: 'bi:stars',
+    mapUrl: 'https://maps.google.com',
+    items: [
+      {
+        icon: 'bi:calendar-event',
+        label: 'Date',
+        title: 'Saturday, June 15, 2026',
+        subtitle: 'Same evening celebration',
+      },
+      {
+        icon: 'bi:clock',
+        label: 'Time',
+        title: '6:30 PM – 11:30 PM',
+        subtitle: 'Cocktail hour starts at 6:30 PM',
+      },
+      {
+        icon: 'bi:geo-alt-fill',
+        label: 'Venue',
+        title: 'The Grand Ballroom',
+        description: '5678 Celebration Ave\nPortland, OR 97202',
+      },
+      {
+        icon: 'bi:music-note-beamed',
+        label: 'Entertainment',
+        title: 'Live Band & DJ',
+        subtitle: 'Dinner, dancing & celebration',
+      },
+    ],
+  },
+];
+
+/* =========================
+   RUNDOWN MODAL
+========================= */
+const rundown = {
+  title: 'Day Timeline',
+  subtitle: "Here's how our special day will unfold",
+  timeline: [
+    {
+      time: '3:45',
+      period: 'PM',
+      icon: 'bi:door-open',
+      title: 'Guest Arrival',
+      description: 'Please arrive and find your seats at Rose Garden Estate',
+    },
+    {
+      time: '4:00',
+      period: 'PM',
+      icon: 'bi:heart-fill',
+      title: 'Ceremony Begins',
+      description:
+        'Exchange of vows and rings in the beautiful garden setting',
+    },
+    {
+      time: '4:45',
+      period: 'PM',
+      icon: 'bi:camera',
+      title: 'Photos & Cocktails',
+      description:
+        'Enjoy cocktails and appetizers while we capture memories',
+    },
+    {
+      time: '6:30',
+      period: 'PM',
+      icon: 'bi:stars',
+      title: 'Reception Begins',
+      description:
+        'Grand entrance and first dance at The Grand Ballroom',
+    },
+    {
+      time: '7:30',
+      period: 'PM',
+      icon: 'bi:cup-hot',
+      title: 'Dinner Service',
+      description:
+        'Three-course gourmet dinner with wine pairing',
+    },
+    {
+      time: '9:00',
+      period: 'PM',
+      icon: 'bi:music-note-beamed',
+      title: 'Dancing & Celebration',
+      description:
+        "Live band and DJ – let's party the night away!",
+    },
+    {
+      time: '11:30',
+      period: 'PM',
+      icon: 'bi:balloon-heart',
+      title: 'Grand Farewell',
+      description:
+        'Sparkler send-off to end the perfect night',
+    },
+  ],
+};
+
+/* =========================
+   IMPORTANT INFO
+========================= */
+const importantInfo = {
+  title: 'Important Information',
+  subtitle: 'Everything you need to know for our special day',
+  items: [
+    {
+      icon: 'bi:palette-fill',
+      title: 'Dress Code',
+      text: 'Garden Formal / Cocktail Attire, Elegant & garden-inspired colors encouraged',
+    },
+    {
+      icon: 'bi:car-front-fill',
+      title: 'Parking',
+      text: 'Complimentary valet service at both venues',
+    },
+    {
+      icon: 'bi:cloud-sun-fill',
+      title: 'Weather',
+      text: '70–75°F expected, light jacket recommended',
+    },
+    {
+      icon: 'bi:people-fill',
+      title: 'Plus Ones',
+      text: 'Please refer to your invitation',
+    },
+    {
+      icon: 'bi:camera-fill',
+      title: 'Photography',
+      text: 'Unplugged ceremony, enjoy the moment',
+    },
+    {
+      icon: 'bi:gift-fill',
+      title: 'Gifts',
+      text: 'Your presence is enough',
+    },
+    {
+      icon: 'bi:reception-4',
+      title: 'WiFi Available',
+      text: 'Network: EmmaLucas2026 (password at venue)',
+    },
+    {
+      icon: 'bi:balloon-heart-fill',
+      title: 'Kids Welcome',
+      text: 'Family-friendly event',
+    },
+    {
+      icon: 'bi:heart-pulse-fill',
+      title: 'Dietary Needs',
+      text: 'Please inform us via RSVP',
+    },
+  ],
+};
+---
+
+<section id={section.id} class="py-20 md:py-24 bg-mist/50">
+  <div
+    class="max-w-7xl mx-auto px-4"
+    x-data="{ showModal: false }"
+    @open-rundown.window="showModal = true"
+  >
+    <!-- Heading -->
+    <HeadingTitle title={section.title} align="center" description={section.description} />
+
+    <!-- Wedding Cards -->
+    <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto mb-20">
+      {weddingCards.map((card) => (
+        <WeddingCard {...card} />
+      ))}
+    </div>
+
+    <!-- Rundown Modal -->
+    <RundownModal {...rundown} />
+
+    <!-- Important Info -->
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-10">
+        <h3 class="font-serif text-4xl font-semibold text-botanical">
+          {importantInfo.title}
+        </h3>
+        <p class="text-gray-600 mt-2">
+          {importantInfo.subtitle}
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {importantInfo.items.map((item) => (
+          <div class="flex items-start gap-4 p-5 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all bg-white">
+            <Icon name={item.icon} class="w-8 h-8 text-sage shrink-0" />
+            <div>
+              <p class="font-semibold text-botanical mb-2 text-lg">
+                {item.title}
+              </p>
+              <p class="text-sm text-gray-500">
+                {item.text}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

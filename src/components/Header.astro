@@ -1,0 +1,93 @@
+---
+import Logo from './Logo.astro';
+import { Icon } from 'astro-icon/components';
+
+export interface MenuItem {
+  label: string;
+  href: string;
+}
+
+export interface HeaderProps {
+  menu?: MenuItem[];
+  homeHref?: string;
+}
+
+// Default data
+const {
+  homeHref = '#home',
+  menu = [
+    { label: 'Home', href: '#home' },
+    { label: 'Our Story', href: '#story' },
+    { label: 'Details', href: '#details' },
+    { label: 'Schedule', href: '#schedule' },
+    { label: 'Gallery', href: '#gallery' },
+    { label: 'RSVP', href: '#rsvp' },
+  ],
+} = Astro.props;
+---
+
+<header
+  class="fixed w-full top-0 z-50 bg-ivory/95 backdrop-blur-sm shadow-sm"
+  x-data="{ open: false }"
+>
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex justify-between items-center h-20">
+
+      <!-- Logo -->
+      <a href={homeHref} aria-label="Home">
+        <Logo />
+      </a>
+
+      <!-- Desktop Menu -->
+      <nav
+        id="desktop-navbar"
+        class="hidden lg:flex lg:items-center desktop-navbar"
+      >
+        {menu.map((item: MenuItem) => (
+          <a
+            href={item.href}
+            class="menu-item nav-link"
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+
+      <!-- Mobile Toggle Button -->
+      <button
+        @click="open = !open"
+        class="lg:hidden text-botanical"
+        aria-label="Toggle menu"
+      >
+        <!-- Hamburger -->
+        <span x-show="!open">
+          <Icon name="bi:list" class="text-3xl" />
+        </span>
+
+        <!-- Close -->
+        <span x-show="open" x-cloak style="display: none">
+          <Icon name="bi:x-lg" class="text-3xl" />
+        </span>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <nav
+      id="mobile-navbar"
+      x-show="open"
+      x-transition
+      class="lg:hidden pb-6 space-y-4 mobile-navbar"
+      style="display: none;"
+    >
+      {menu.map((item: MenuItem) => (
+        <a
+          href={item.href}
+          x-on:click="open = false"
+          class="block text-sm uppercase tracking-widest text-botanical hover:text-yellow-600 transition-colors nav-link"
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,166 @@
+---
+import HeadingTitle from './HeadingTitle.astro';
+import { Icon } from 'astro-icon/components';
+
+/* =========================
+   SECTION CONFIG
+========================= */
+const section = {
+  id: 'contact',
+  title: 'Get In Touch',
+  description:
+    'Have questions? Need more information? Feel free to reach out to our wedding planner or contact us directly.',
+  decorations: {
+    bottomLeft: '/img/bottom-left-flower.png',
+    bottomRight: '/img/bottom-right-flower.png',
+  },
+};
+
+/* =========================
+   CONTACT CARDS DATA
+========================= */
+type ContactCard = {
+  name: string;
+  role: string;
+  image: string;
+  email?: string;
+  phone?: string;
+  note?: string;
+};
+
+const contacts: ContactCard[] = [
+  {
+    name: 'Jennifer Rose Events',
+    role: 'Wedding Planner',
+    image: '/img/planner.jpg',
+    email: 'jennifer@roseevents.com',
+    phone: '(503) 555-0123',
+  },
+  {
+    name: 'Emma & Lucas',
+    role: 'The Couple',
+    image: '/img/gallery4.jpg',
+    email: 'emmaandlucas2026@email.com',
+    note: 'For day-of emergencies, please contact our wedding planner',
+  },
+];
+
+/* =========================
+   SOCIAL MEDIA DATA
+========================= */
+type SocialItem = {
+  name: string;
+  icon: string;
+  url: string;
+};
+
+const socials: SocialItem[] = [
+  {
+    name: 'Instagram',
+    icon: 'bi:instagram',
+    url: '#',
+  },
+  {
+    name: 'Facebook',
+    icon: 'bi:facebook',
+    url: '#',
+  },
+  {
+    name: 'Pinterest',
+    icon: 'bi:pinterest',
+    url: '#',
+  },
+];
+
+const hashtag = '#EmmaAndLucasForever';
+---
+
+<section id={section.id} class="py-20 md:py-24 relative bg-ivory">
+  <!-- Decorations -->
+  <img
+    src={section.decorations.bottomLeft}
+    alt="floral decoration"
+    loading="lazy"
+    class="absolute bottom-0 left-0 opacity-50 pointer-events-none"
+  />
+  <img
+    src={section.decorations.bottomRight}
+    alt="floral decoration"
+    loading="lazy"
+    class="absolute bottom-0 right-0 opacity-50 pointer-events-none"
+  />
+
+  <div class="max-w-7xl mx-auto relative px-4">
+    <!-- Heading -->
+    <HeadingTitle
+      title={section.title}
+      description={section.description}
+    />
+
+    <!-- Contact Cards -->
+    <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 mb-16">
+      {contacts.map((item: ContactCard) => (
+        <div class="bg-white p-10 shadow-lg border border-mist text-center">
+          <div class="size-24 rounded-full overflow-hidden mx-auto mb-6">
+            <img
+              src={item.image}
+              alt={item.name}
+              loading="lazy"
+              class="w-full h-full object-cover"
+            />
+          </div>
+
+          <h3 class="text-2xl font-semibold mb-1">
+            {item.name}
+          </h3>
+          <p class="font-serif text-botanical mb-4">
+            {item.role}
+          </p>
+
+          {item.email && (
+            <p class="text-gray-600 mb-2 flex items-center justify-center gap-2">
+              <Icon name="bi:envelope" class="text-sage" />
+              {item.email}
+            </p>
+          )}
+
+          {item.phone && (
+            <p class="text-gray-600 flex items-center justify-center gap-2">
+              <Icon name="bi:telephone" class="text-sage" />
+              {item.phone}
+            </p>
+          )}
+
+          {item.note && (
+            <p class="text-sm text-gray-500 mt-4">
+              {item.note}
+            </p>
+          )}
+        </div>
+      ))}
+    </div>
+
+    <!-- Social -->
+    <div class="text-center">
+      <p class="text-lg mb-6 text-botanical font-medium">
+        Follow our journey on social media
+      </p>
+
+      <div class="flex justify-center gap-6 mb-6">
+        {socials.map((item: SocialItem) => (
+          <a
+            href={item.url}
+            aria-label={item.name}
+            class="text-sage hover:text-botanical transition-colors duration-300 text-3xl"
+          >
+            <Icon name={item.icon} />
+          </a>
+        ))}
+      </div>
+
+      <p class="font-serif text-xl text-botanical">
+        {hashtag}
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,75 @@
+---
+import HeadingTitle from './HeadingTitle.astro';
+
+/* =========================
+   SECTION CONFIG
+========================= */
+const section = {
+  id: 'registry',
+  title: 'Gift Registry',
+  description:
+    "Your presence at our wedding is the greatest gift of all! However, if you wish to honor us with a gift, we've registered at the following stores.",
+};
+
+/* =========================
+   REGISTRY DATA
+========================= */
+type RegistryItem = {
+  name: string;
+  logo: string;
+  url: string;
+};
+
+const registries: RegistryItem[] = [
+  {
+    name: 'Amazon',
+    logo: '/img/amazon.png',
+    url: '#',
+  },
+  {
+    name: 'Zola',
+    logo: '/img/zola.png',
+    url: '#',
+  },
+  {
+    name: 'Crate & Barrel',
+    logo: '/img/create-barrel.png',
+    url: '#',
+  },
+  {
+    name: 'Target',
+    logo: '/img/target.png',
+    url: '#',
+  },
+];
+---
+
+<section id={section.id} class="py-20 md:py-24 bg-mist">
+  <div class="max-w-7xl mx-auto px-4">
+    <!-- Heading -->
+    <HeadingTitle
+      title={section.title}
+      description={section.description}
+    />
+
+    <!-- Registry Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mx-auto">
+      {registries.map((item: RegistryItem) => (
+        <a
+          href={item.url}
+          target="_blank"
+          rel="noopener"
+          aria-label={`Visit ${item.name} registry`}
+          class="flex items-center justify-center bg-white p-8 shadow-lg border border-mist text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group"
+        >
+          <img
+            src={item.logo}
+            alt={`${item.name} logo`}
+            class="w-4/5"
+            loading="lazy"
+          />
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

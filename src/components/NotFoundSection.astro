@@ -1,0 +1,51 @@
+---
+import HeadingTitle from './HeadingTitle.astro';
+import { Icon } from 'astro-icon/components';
+
+/* =========================
+   SECTION CONFIG
+========================= */
+const section = {
+  id: 'not-found',
+  title: '404 Page Not Found',
+  description:
+    "Sorry, the page you’re looking for doesn’t exist or may have been moved.",
+  homeLink: {
+    label: 'Back to Home',
+    href: '/',
+  },
+};
+---
+
+<section
+  id={section.id}
+  class="min-h-[70vh] flex items-center justify-center bg-ivory relative py-20"
+>
+  <div class="max-w-3xl mx-auto px-4 text-center">
+    <!-- Icon -->
+    <div class="flex justify-center mb-8">
+      <div class="w-24 h-24 flex items-center justify-center rounded-full bg-sage/10 text-sage">
+        <Icon name="bi:exclamation-triangle" class="text-5xl" />
+      </div>
+    </div>
+
+    <!-- title -->
+    <h1 class="font-serif text-6xl md:text-7xl text-botanical mb-6">
+      {section.title}
+    </h1>
+
+    <!-- Message -->
+    <p class="text-gray-600 text-lg max-w-xl mx-auto mb-10">
+       {section.description}
+    </p>
+
+    <!-- Action -->
+    <a
+      href={section.homeLink.href}
+      class="inline-flex items-center gap-3 px-10 py-4 bg-botanical text-white text-sm uppercase tracking-[0.15em] font-medium hover:bg-botanical/90 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+    >
+      <Icon name="bi:house-door-fill" class="text-lg" />
+      {section.homeLink.label}
+    </a>
+  </div>
+</section>

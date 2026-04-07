@@ -1,0 +1,90 @@
+---
+import HeadingTitle from "./HeadingTitle.astro";
+
+export interface JourneyItem {
+  date: string;
+  title: string;
+  description: string;
+}
+
+export interface JourneySectionProps {
+  sectionId?: string;
+  sectionTitle?: string;
+  backgroundImage?: string;
+  timeline?: JourneyItem[];
+}
+
+// Default data
+const {
+  sectionId = 'journey',
+  sectionTitle = 'Our Journey Together',
+  backgroundImage = '/img/bottom-right-flower.png',
+  timeline = [
+    {
+      date: 'October 2019',
+      title: 'First Meeting',
+      description: 'A coffee shop encounter that changed everything',
+    },
+    {
+      date: 'February 2020',
+      title: 'First Adventure',
+      description: 'Hiking the Pacific Crest Trail together',
+    },
+    {
+      date: 'November 2021',
+      title: 'The Proposal',
+      description: 'Lucas asked, Emma said yes!',
+    },
+    {
+      date: 'June 2026',
+      title: 'Our Wedding Day',
+      description: 'Beginning our forever together',
+    },
+  ],
+} = Astro.props;
+---
+
+<section id={sectionId} class="py-20 md:py-24 bg-ivory relative">
+  <!-- Decorative Flower -->
+  {backgroundImage && (
+    <img
+      src={backgroundImage}
+      alt="decorative flower"
+      loading="lazy"
+      class="absolute bottom-0 right-0 opacity-50 pointer-events-none"
+    />
+  )}
+
+  <div class="max-w-7xl mx-auto px-4 relative">
+    <!-- Section Heading -->
+    <HeadingTitle title={sectionTitle} align="center" />
+
+    <!-- Timeline -->
+    <div class="max-w-3xl mx-auto">
+      <div class="relative pl-12 space-y-12">
+        <!-- Vertical Line -->
+        <div class="absolute left-0 top-0 bottom-0 w-0.5 bg-linear-to-b from-sage to-mist"></div>
+
+        {timeline.map((item: JourneyItem) => (
+          <div class="relative">
+            <!-- Dot -->
+            <div class="absolute -left-[3.3rem] top-0 w-3.5 h-3.5 rounded-full bg-botanical border-4 border-ivory shadow-md"></div>
+
+            <!-- Content -->
+            <div class="pl-2 md:pl-8">
+              <span class="text-sage text-sm uppercase tracking-wider">
+                {item.date}
+              </span>
+              <h3 class="font-serif text-2xl font-semibold text-botanical mt-3 mb-1">
+                {item.title}
+              </h3>
+              <p class="text-gray-600">
+                {item.description}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

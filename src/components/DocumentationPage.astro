@@ -1,0 +1,320 @@
+---
+import HeadingTitle from './HeadingTitle.astro';
+import { Icon } from 'astro-icon/components';
+
+/* =========================
+   PAGE CONFIG
+========================= */
+const page = {
+  id: 'documentation',
+  title: 'Documentation',
+  intro:
+    'Marriage-Astro Template is a Astro template designed for Wedding Website. This guide provides detailed instructions on setup, installation, and customization to help you tailor Marriage to your needs.',
+};
+
+/* =========================
+   SETUP & INSTALLATION
+========================= */
+const setup = {
+  title: 'Setup and Installation',
+  steps: [
+    {
+      icon: 'bi:gear-fill',
+      title: 'Step 1: Prepare Your Tools',
+      items: [
+        { icon: 'bi:file-earmark-plus-fill', text: 'Node.js: Download and install from nodejs.org (includes npm).' },
+        { icon: 'bi:file-earmark-plus-fill', text: 'npm: Node Package Manager, installed with Node.js. Verify with npm -v.' },
+        { icon: 'bi:file-earmark-plus-fill', text: 'Visual Studio Code: Recommended code editor, available at code.visualstudio.com.' },
+      ],
+    },
+    {
+      icon: 'bi:folder2-open',
+      title: 'Step 2: Open the Project',
+      items: [
+        { icon: 'bi:door-open', text: 'Download and unzip the project folder.' },
+        { icon: 'bi:folder2-open', text: 'Open the project folder in Visual Studio Code or your preferred editor.' },
+        { icon: 'bi:door-open', text: 'Open a terminal in VS Code (Terminal > New Terminal).' },
+      ],
+    },
+    {
+      icon: 'bi:reception-4',
+      title: 'Step 3: Install Dependencies and Run the Project',
+      codeBlocks: [
+        { command: 'npm install', description: 'Install all dependencies' },
+        { command: 'npm run dev', description: 'Start development server' },
+        { command: 'npm run build', description: 'Build for production' },
+      ],
+      notes: [
+        { icon: 'bi:cloud-sun-fill', text: 'Open http://localhost:4321 in your browser to preview the project.' },
+        { icon: 'bi:gift-fill', text: 'npm run build generates optimized production files in the dist folder.' },
+      ],
+    },
+  ],
+};
+
+/* =========================
+   CUSTOMIZATION
+========================= */
+const customization = {
+  title: 'Customization',
+  sections: [
+    {
+      icon: 'bi:palette-fill',
+      title: 'Custom Tailwind Classes',
+      description:
+        'Modify Tailwind CSS classes directly in the index.html files within the /src folder to adjust styling. Update colors, fonts, or layouts using Tailwind utilities.',
+      note: 'Refer to the Tailwind CSS documentation for available classes.',
+      link: { url: 'https://tailwindcss.com/docs', text: 'Tailwind CSS Docs' },
+    },
+    {
+      icon: 'bi:gear-fill',
+      title: 'Modify Tailwind Configuration',
+      description:
+        'Customize global styles, fonts, colors, and other configurations in the Tailwind configuration file.',
+      code: `@import "tailwindcss";
+
+@theme {
+  --color-botanical: #5F6F52;
+  --color-sage: #9CAE9B;
+  --color-mist: #DDE5D5;
+  --color-ivory: #F9F7F2;
+  --color-taupe: #C7B7A3;
+  --color-dark: #000000;
+  --font-serif: Cormorant Garamond, serif;
+  --font-sans: Montserrat, sans-serif;
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-gray-200);
+  }
+  button, [role="button"] {
+    cursor: pointer;
+  }
+}
+
+@custom-variant dark (&:where(.dark, .dark *));`,
+    },
+  ],
+};
+
+/* =========================
+   STRUCTURE & BEST PRACTICES
+========================= */
+const structure = {
+  title: 'Project Folder Structure',
+  tree: [
+    { name: 'src/', level: 0, icon: 'bi:folder2-open', description: '' },
+    { name: '/src/pages', level: 1, icon: 'bi:file-earmark-plus-fill', description: 'Root Page/ Index' },
+    { name: 'src/styles/', level: 1, icon: 'bi:folder2-open', description: 'CSS files' },
+    { name: 'src/components/', level: 1, icon: 'bi:folder2-open', description: 'Global reusable components' },
+    { name: 'public/img/', level: 1, icon: 'bi:folder2-open', description: 'Images' },
+  ],
+};
+
+const bestPractices = {
+  title: 'Best Practices',
+  items: [
+    { icon: 'bi:check-circle-fill', text: 'Keep components small and reusable for easier maintenance.' },
+    { icon: 'bi:check-circle-fill', text: 'Enable SEO meta tags in your layout for better discoverability.' },
+    { icon: 'bi:check-circle-fill', text: 'Optimize images (compress/minify) to improve performance.' },
+  ],
+};
+---
+
+<section class="py-20 md:py-24 bg-ivory">
+  <div class="max-w-6xl mx-auto px-4">
+    <!-- Heading -->
+    <HeadingTitle title={page.title} description={page.intro} />
+
+    <!-- Setup & Installation -->
+    <div class="mt-16 space-y-8">
+      <div class="flex items-center gap-3 mb-8">
+        <Icon name="bi:book" class="w-8 h-8 text-botanical" />
+        <h2 class="font-serif text-3xl md:text-4xl text-botanical">{setup.title}</h2>
+      </div>
+
+      <div class="grid gap-6">
+        {setup.steps.map((step, index) => (
+          <div class="bg-white rounded-lg border-2 border-mist shadow-sm hover:shadow-md transition-shadow duration-300">
+            <div class="p-6 md:p-8">
+              <div class="flex items-start gap-4 mb-6">
+                <div class="shrink-0 w-12 h-12 rounded-full bg-botanical/10 flex items-center justify-center">
+                  <Icon name={step.icon} class="w-6 h-6 text-botanical" />
+                </div>
+                <div class="flex-1">
+                  <h3 class="font-semibold text-xl md:text-2xl text-botanical">
+                    {step.title}
+                  </h3>
+                </div>
+              </div>
+
+              {step.items && (
+                <div class="space-y-4 ml-16">
+                  {step.items.map((item) => (
+                    <div class="flex items-start gap-3">
+                      <Icon name={item.icon} class="w-5 h-5 text-sage mt-0.5 shrink-0" />
+                      <p class="text-gray-700">{item.text}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {step.codeBlocks && (
+                <div class="space-y-4 ml-16 mt-6">
+                  {step.codeBlocks.map((block) => (
+                    <div>
+                      <p class="text-sm text-gray-500 mb-2 font-medium">{block.description}</p>
+                      <div class="bg-botanical/5 rounded-lg p-4 border border-mist">
+                        <pre class="text-sm font-mono text-botanical overflow-x-auto">{block.command}</pre>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {step.notes && (
+                <div class="mt-6 ml-16 space-y-3 pt-6 border-t border-mist">
+                  {step.notes.map((note) => (
+                    <div class="flex items-start gap-3">
+                      <Icon name={note.icon} class="w-5 h-5 text-taupe mt-0.5 shrink-0" />
+                      <p class="text-sm text-gray-600">{note.text}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Customization -->
+    <div class="mt-24 space-y-8">
+      <div class="flex items-center gap-3 mb-8">
+        <Icon name="bi:brush-fill" class="w-8 h-8 text-botanical" />
+        <h2 class="font-serif text-3xl md:text-4xl text-botanical">
+          {customization.title}
+        </h2>
+      </div>
+
+      <div class="grid gap-6">
+        {customization.sections.map((sec) => (
+          <div class="bg-white rounded-lg border-2 border-mist shadow-sm hover:shadow-md transition-shadow duration-300">
+            <div class="p-6 md:p-8">
+              <div class="flex items-start gap-4 mb-4">
+                <div class="shrink-0 w-10 h-10 rounded-full bg-sage/10 flex items-center justify-center">
+                  <Icon name={sec.icon} class="w-5 h-5 text-sage" />
+                </div>
+                <div class="flex-1">
+                  <h3 class="font-semibold text-xl md:text-2xl text-botanical mb-2">
+                    {sec.title}
+                  </h3>
+                  <p class="text-gray-700 leading-relaxed">{sec.description}</p>
+                </div>
+              </div>
+
+              {sec.note && (
+                <div class="ml-14 mt-3 flex items-start gap-2 bg-mist/30 rounded-lg p-3">
+                  <Icon name="bi:info-circle-fill" class="w-5 h-5 text-botanical mt-0.5 shrink-0" />
+                  <p class="text-sm text-gray-600 italic">{sec.note}</p>
+                </div>
+              )}
+
+              {sec.link && (
+                <div class="ml-14 mt-3">
+                  <a 
+                    href={sec.link.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 text-botanical hover:text-sage transition-colors font-medium"
+                  >
+                    <Icon name="bi:arrow-up" class="w-4 h-4 rotate-45" />
+                    {sec.link.text}
+                  </a>
+                </div>
+              )}
+
+              {sec.code && (
+                <div class="mt-6 ml-14">
+                  <div class="bg-botanical/5 rounded-lg border border-mist overflow-hidden">
+                    <div class="bg-botanical/10 px-4 py-2 border-b border-mist flex items-center gap-2">
+                      <Icon name="bi:file-earmark-plus-fill" class="w-4 h-4 text-botanical" />
+                      <span class="text-sm font-medium text-botanical">src/styles/style.css</span>
+                    </div>
+                    <pre class="p-4 text-xs md:text-sm font-mono overflow-x-auto text-gray-800 leading-relaxed">{sec.code}</pre>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Folder Structure -->
+    <div class="mt-24">
+      <div class="flex items-center gap-3 mb-8">
+        <Icon name="bi:folder2-open" class="w-8 h-8 text-botanical" />
+        <h2 class="font-serif text-3xl md:text-4xl text-botanical">
+          {structure.title}
+        </h2>
+      </div>
+      
+      <div class="bg-white rounded-lg border-2 border-mist shadow-sm p-6 md:p-8">
+        <div class="space-y-3">
+          {structure.tree.map((item) => (
+            <div 
+              class="flex items-start gap-3 hover:bg-mist/20 rounded p-2 transition-colors"
+              style={`padding-left: ${item.level * 2}rem`}
+            >
+              <Icon 
+                name={item.icon} 
+                class={`w-5 h-5 shrink-0 mt-0.5 ${
+                  item.icon === 'bi:folder2-open' ? 'text-sage' : 'text-taupe'
+                }`} 
+              />
+              <div class="flex-1">
+                <span class="font-mono text-botanical font-medium">{item.name}</span>
+                {item.description && (
+                  <span class="text-gray-500 text-sm ml-2">— {item.description}</span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Best Practices -->
+    <div class="mt-24">
+      <div class="flex items-center gap-3 mb-8">
+        <Icon name="bi:lightbulb-fill" class="w-8 h-8 text-botanical" />
+        <h2 class="font-serif text-3xl md:text-4xl text-botanical">
+          {bestPractices.title}
+        </h2>
+      </div>
+      
+      <div class="bg-white rounded-lg border-2 border-mist shadow-sm p-6 md:p-8">
+        <div class="grid gap-4">
+          {bestPractices.items.map((item) => (
+            <div class="flex items-start gap-4 p-4 rounded-lg hover:bg-mist/20 transition-colors">
+              <div class="shrink-0 w-10 h-10 rounded-full bg-sage/10 flex items-center justify-center">
+                <Icon name={item.icon} class="w-5 h-5 text-sage" />
+              </div>
+              <p class="text-gray-700 leading-relaxed pt-2">{item.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

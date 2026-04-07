@@ -1,0 +1,110 @@
+---
+import HeadingTitle from './HeadingTitle.astro';
+
+/* =========================
+   SECTION CONFIG
+========================= */
+const section = {
+  id: 'schedule',
+  title: 'Wedding Itinerary',
+};
+
+/* =========================
+   SCHEDULE DATA
+========================= */
+type ScheduleItem = {
+  title: string;
+  description: string;
+  time: string;
+};
+
+type ScheduleDay = {
+  dayTitle: string;
+  items: ScheduleItem[];
+};
+
+const schedules: ScheduleDay[] = [
+  {
+    dayTitle: 'Friday, June 14',
+    items: [
+      {
+        title: 'Welcome Dinner',
+        description: 'Riverside Restaurant - Casual Attire',
+        time: '7:00 PM',
+      },
+    ],
+  },
+  {
+    dayTitle: 'Saturday, June 15 - Wedding Day',
+    items: [
+      {
+        title: 'Ceremony',
+        description: 'Rose Garden Estate',
+        time: '4:00 PM',
+      },
+      {
+        title: 'Cocktail Hour',
+        description: 'Garden Terrace',
+        time: '5:00 PM',
+      },
+      {
+        title: 'Reception & Dinner',
+        description: 'The Grand Ballroom',
+        time: '6:30 PM',
+      },
+      {
+        title: 'Dancing & Celebration',
+        description: 'Party all night!',
+        time: '8:30 PM',
+      },
+    ],
+  },
+  {
+    dayTitle: 'Sunday, June 16',
+    items: [
+      {
+        title: 'Farewell Brunch',
+        description: 'Garden Café - Casual Attire',
+        time: '10:00 AM',
+      },
+    ],
+  },
+];
+---
+
+<section id={section.id} class="py-20 md:py-24 bg-ivory">
+  <div class="max-w-7xl mx-auto px-4">
+    <!-- Heading -->
+    <HeadingTitle title={section.title} />
+
+    <!-- Schedule List -->
+    <div class="max-w-4xl mx-auto space-y-6">
+      {schedules.map((day: ScheduleDay) => (
+        <div class="bg-linear-to-br from-mist to-white border-l-4 border-botanical p-8 shadow-sm">
+          <h3 class="font-serif text-3xl font-semibold text-botanical mb-6">
+            {day.dayTitle}
+          </h3>
+
+          <div class={day.items.length > 1 ? 'space-y-6' : ''}>
+            {day.items.map((item: ScheduleItem) => (
+              <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                  <p class="font-semibold text-lg text-botanical">
+                    {item.title}
+                  </p>
+                  <p class="text-gray-600 mt-1">
+                    {item.description}
+                  </p>
+                </div>
+
+                <span class="font-serif text-2xl text-sage whitespace-nowrap">
+                  {item.time}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

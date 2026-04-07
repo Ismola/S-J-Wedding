@@ -1,0 +1,76 @@
+---
+import Header from '@src/components/Header.astro';
+import Footer from '@src/components/Footer.astro';
+import { Font } from "astro:assets";
+
+import 'glightbox/dist/css/glightbox.min.css';
+import '@src/styles/style.css';
+import BackToTop from '@src/components/BackToTop.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title = "Emma & Lucas - Our Wedding Day",
+  description = "Emma & Lucas - Our Wedding Day. Join us in celebrating our special day filled with love, joy, and unforgettable moments.",
+} = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+
+    <!-- Primary Meta -->
+    <meta name="description" content={description} />
+    <meta name="author" content="Author Name" />
+    <meta name="robots" content="index, follow" />
+
+    <link rel="canonical" href={Astro.url?.href || "https://marriage.madethemes.com"} />
+    <link rel="icon" type="image/x-icon" href="/img/favicon.png" />
+    <Font cssVariable="--font-cormorant-garamond" preload />
+    <Font cssVariable="--font-montserrat" preload />
+  </head>
+
+  <body class="font-sans bg-ivory text-gray-800 leading-relaxed pt-20">
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <BackToTop />
+
+    <!-- Alpine.js -->
+    <script>
+      import Alpine from 'alpinejs';
+      declare global {
+        interface Window {
+          Alpine: typeof Alpine;
+        }
+      }
+      window.Alpine = Alpine;
+      Alpine.start();
+    </script>
+
+    <!-- GLightbox -->
+    <script>
+      import GLightbox from 'glightbox';
+
+      const hasLightbox = document.querySelector('.glightbox');
+      if (hasLightbox) {
+        GLightbox({
+          selector: '.glightbox',
+          touchNavigation: true,
+          loop: true,
+        });
+      }
+    </script>
+    <script>
+      import { initSiteEffects } from '@src/scripts/site-effects.ts';
+      initSiteEffects();
+    </script>
+  </body>
+</html>

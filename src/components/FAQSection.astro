@@ -1,0 +1,119 @@
+---
+import HeadingTitle from './HeadingTitle.astro';
+import { Icon } from 'astro-icon/components';
+
+/* =========================
+   SECTION CONFIG
+========================= */
+const section = {
+  id: 'faq',
+  title: 'Frequently Asked Questions',
+  decoration: '/img/bottom-right-flower.png',
+};
+
+/* =========================
+   FAQ DATA
+========================= */
+type FAQItem = {
+  id: number;
+  question: string;
+  answer: string;
+};
+
+const faqs: FAQItem[] = [
+  {
+    id: 1,
+    question: 'What should I wear?',
+    answer:
+      "The dress code is Garden Formal / Cocktail Attire. Think elegant and sophisticated with a garden party vibe. Ladies: cocktail dresses, midi dresses, or elegant jumpsuits. Gentlemen: suits or dress shirts with slacks. Since we're outdoors for the ceremony, we recommend avoiding stiletto heels!",
+  },
+  {
+    id: 2,
+    question: 'Are children welcome?',
+    answer:
+      "We love your little ones, but we've decided to make our wedding an adults-only celebration. We hope this gives you a chance to enjoy a night off and celebrate with us! Children in the wedding party are of course welcome.",
+  },
+  {
+    id: 3,
+    question: 'Can I bring a plus-one?',
+    answer:
+      "Due to limited venue capacity, we're only able to accommodate those guests formally invited on your wedding invitation. If your invitation includes a plus-one, their name will be indicated. If you have questions, please reach out to us directly.",
+  },
+  {
+    id: 4,
+    question: 'Is parking available?',
+    answer:
+      "Yes! Both venues offer complimentary valet parking. We also encourage carpooling or using ride-share services if you plan to enjoy the open bar.",
+  },
+  {
+    id: 5,
+    question: "What's the weather like in June?",
+    answer:
+      "Portland in June is typically beautiful! Average temperatures range from 70–75°F (21–24°C). The ceremony will be outdoors, so we recommend bringing a light jacket for the evening.",
+  },
+  {
+    id: 6,
+    question: 'Will there be an open bar?',
+    answer:
+      "Yes! We'll have a full open bar with wine, beer, cocktails, and non-alcoholic options. Signature cocktails include “The Blushing Bride” and “Lucky Lucas.”",
+  },
+  {
+    id: 7,
+    question: 'Where should I stay?',
+    answer:
+      'We have room blocks at The Grand Hotel Portland and The Garden Inn. Use code “EMMALUCAS2026” for special rates. Both offer shuttle service.',
+  },
+  {
+    id: 8,
+    question: 'Can I take photos during the ceremony?',
+    answer:
+      "We're having an unplugged ceremony. Please silence and put away phones during the ceremony so you can be fully present. Feel free to take photos during the reception!",
+  },
+];
+---
+
+<section id={section.id} class="py-20 md:py-24 bg-mist relative">
+  <!-- Decoration -->
+  <img
+    src={section.decoration}
+    alt="floral decoration"
+    loading="lazy"
+    class="absolute bottom-0 right-0 opacity-50 pointer-events-none"
+  />
+
+  <div class="max-w-7xl mx-auto relative px-4">
+    <!-- Heading -->
+    <HeadingTitle title={section.title} />
+
+    <!-- FAQ Accordion -->
+    <div
+      class="max-w-3xl mx-auto space-y-4"
+      x-data="{ open: null }"
+    >
+      {faqs.map((item: FAQItem) => (
+        <div class="bg-white shadow-lg border border-mist overflow-hidden">
+          <button
+            x-on:click={`open = open === ${item.id} ? null : ${item.id}`}
+            class="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-mist/30 transition-colors"
+          >
+            <span class="font-semibold text-lg text-botanical">
+              {item.question}
+            </span>
+
+            <Icon
+              name="bi:chevron-down"
+              class="text-sage text-xl transition-transform duration-300"
+              x-bind:class={`open === ${item.id} ? 'rotate-180' : ''`}
+            />
+          </button>
+
+          <div x-show={`open === ${item.id}`} x-transition class="px-8 pb-6">
+            <p class="text-gray-600 leading-relaxed">
+              {item.answer}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

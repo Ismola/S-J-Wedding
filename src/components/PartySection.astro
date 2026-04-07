@@ -1,0 +1,139 @@
+---
+import HeadingTitle from './HeadingTitle.astro';
+import PersonCard from './PersonCard.astro';
+
+/* =========================
+   SECTION CONFIG
+========================= */
+const section = {
+  title: 'Our Loved Ones',
+};
+
+/* =========================
+   PARTY GROUP DATA
+========================= */
+type PartyMember = {
+  name: string;
+  image: string;
+  description: string;
+};
+
+type PartyGroup = {
+  title: string;
+  image: string;
+  imageAlt: string;
+  frameImage: string;
+  reverse?: boolean;
+  members: PartyMember[];
+};
+
+const partyGroups: PartyGroup[] = [
+  {
+    title: 'Bridesmaids',
+    image: '/img/bridesmaid.jpg',
+    imageAlt: 'Bridesmaids',
+    frameImage: '/img/frame2.png',
+    reverse: true,
+    members: [
+      {
+        name: 'Sarah Mitchell',
+        image: '/img/bridesmaid1.jpg',
+        description: "Emma's sister and best friend since childhood",
+      },
+      {
+        name: 'Jessica Parker',
+        image: '/img/bridesmaid2.jpg',
+        description: 'College roommate and forever friend',
+      },
+      {
+        name: 'Rachel Thompson',
+        image: '/img/bridesmaid3.jpg',
+        description: 'Work bestie and adventure partner',
+      },
+      {
+        name: 'Amanda Lee',
+        image: '/img/bridesmaid4.jpg',
+        description: 'Yoga instructor, friend and soul sister',
+      },
+    ],
+  },
+  {
+    title: 'Groomsmen',
+    image: '/img/groomsmen.jpg',
+    imageAlt: 'Groomsmen',
+    frameImage: '/img/frame2.png',
+    members: [
+      {
+        name: 'Michael Carter',
+        image: '/img/groomsmen1.jpg',
+        description: "Lucas's brother and childhood hero",
+      },
+      {
+        name: 'David Wilson',
+        image: '/img/groomsmen2.jpg',
+        description: 'College buddy and golf partner',
+      },
+      {
+        name: 'James Anderson',
+        image: '/img/groomsmen3.jpg',
+        description: 'Childhood friend and soccer teammate',
+      },
+      {
+        name: 'Robert Martinez',
+        image: '/img/groomsmen4.jpg',
+        description: 'Work colleague and fishing buddy',
+      },
+    ],
+  },
+];
+---
+
+<section class="py-20 md:py-24 bg-white relative">
+  <div class="max-w-7xl relative mx-auto px-4">
+    <!-- Heading -->
+    <HeadingTitle title={section.title} />
+
+    {partyGroups.map((group: PartyGroup) => (
+      <div class="mb-24 last:mb-0">
+        <div class="grid lg:grid-cols-2 gap-12">
+          <!-- Image -->
+          <div class={`relative ${group.reverse ? 'lg:order-2' : ''}`}>
+            <h3 class="font-serif text-4xl font-light text-botanical text-center mb-8">
+              {group.title}
+            </h3>
+
+            <div class="relative overflow-hidden aspect-4/2.75">
+              <img
+                src={group.image}
+                alt={group.imageAlt}
+                loading="lazy"
+                class="relative px-3 w-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <img
+                src={group.frameImage}
+                alt="frame"
+                loading="lazy"
+                class="absolute inset-0 pointer-events-none"
+              />
+            </div>
+          </div>
+
+          <!-- Members -->
+          <div
+            class={`grid md:grid-cols-2 gap-8 ${
+              group.reverse ? 'lg:order-1' : ''
+            }`}
+          >
+            {group.members.map((member: PartyMember) => (
+              <PersonCard
+                image={member.image}
+                name={member.name}
+                description={member.description}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,176 @@
+---
+import HeadingTitle from './HeadingTitle.astro';
+
+/* =========================
+   SECTION CONFIG
+========================= */
+const section = {
+  id: 'rsvp',
+  title: 'RSVP',
+  description:
+    "Kindly respond by May 1st, 2026. We can't wait to celebrate with you!",
+  decorations: {
+    bottomLeft: '/img/bottom-left-flower.png',
+    topRight: '/img/top-right-flower.png',
+  },
+};
+
+/* =========================
+   FORM CONFIG
+========================= */
+const form = {
+  submitLabel: 'Submit RSVP',
+  attendingOptions: [
+    { value: 'yes', label: 'Joyfully accepts' },
+    { value: 'no', label: 'Regretfully declines' },
+  ],
+  meals: [
+    { value: 'beef', label: 'Herb-Crusted Beef Tenderloin' },
+    { value: 'fish', label: 'Pan-Seared Salmon' },
+    { value: 'chicken', label: 'Roasted Chicken Breast' },
+    { value: 'vegan', label: 'Vegan Mediterranean Bowl' },
+  ],
+};
+---
+
+<section id={section.id} class="py-20 md:py-24 bg-ivory relative">
+  <!-- Decorations -->
+  <img
+    src={section.decorations.bottomLeft}
+    alt="floral decoration"
+    loading="lazy"
+    class="absolute bottom-0 left-0 opacity-50 pointer-events-none"
+  />
+  <img
+    src={section.decorations.topRight}
+    alt="floral decoration"
+    loading="lazy"
+    class="absolute top-0 right-0 opacity-50 pointer-events-none"
+  />
+
+  <div class="max-w-7xl mx-auto relative px-4">
+    <!-- Heading -->
+    <HeadingTitle
+      title={section.title}
+      description={section.description}
+    />
+
+    <!-- RSVP Form -->
+    <div
+      class="max-w-2xl mx-auto bg-white p-10 shadow-lg border border-mist"
+      x-data="{ attending: '' }"
+    >
+      <form class="space-y-6">
+        <!-- Full Name -->
+        <div>
+          <label class="block mb-2 text-sm uppercase tracking-wider text-botanical font-medium">
+            Full Name *
+          </label>
+          <input
+            type="text"
+            required
+            placeholder="Your full name"
+            class="w-full px-6 py-4 border-2 border-mist bg-white transition-all duration-300 focus:outline-none focus:border-sage focus:ring-4 focus:ring-sage/10"
+          />
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="block mb-2 text-sm uppercase tracking-wider text-botanical font-medium">
+            Email Address *
+          </label>
+          <input
+            type="email"
+            required
+            placeholder="your@email.com"
+            class="w-full px-6 py-4 border-2 border-mist bg-white transition-all duration-300 focus:outline-none focus:border-sage focus:ring-4 focus:ring-sage/10"
+          />
+        </div>
+
+        <!-- Guests -->
+        <div>
+          <label class="block mb-2 text-sm uppercase tracking-wider text-botanical font-medium">
+            Number of Guests *
+          </label>
+          <input
+            type="number"
+            min="1"
+            required
+            placeholder="1"
+            class="w-full px-6 py-4 border-2 border-mist bg-white transition-all duration-300 focus:outline-none focus:border-sage focus:ring-4 focus:ring-sage/10"
+          />
+        </div>
+
+        <!-- Attending -->
+        <div>
+          <label class="block mb-3 text-sm uppercase tracking-wider text-botanical font-medium">
+            Will you be attending? *
+          </label>
+          <div class="space-y-3">
+            {form.attendingOptions.map((opt) => (
+              <label class="flex items-center cursor-pointer group">
+                <input
+                  type="radio"
+                  name="attending"
+                  value={opt.value}
+                  x-model="attending"
+                  class="mr-4 w-5 h-5 accent-botanical"
+                />
+                <span class="group-hover:text-sage transition-colors">
+                  {opt.label}
+                </span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <!-- Meal -->
+        <div x-show="attending === 'yes'" x-transition>
+          <label class="block mb-2 text-sm uppercase tracking-wider text-botanical font-medium">
+            Meal Selection *
+          </label>
+          <select
+            class="w-full px-6 py-4 border-2 border-mist bg-white transition-all duration-300 focus:outline-none focus:border-sage focus:ring-4 focus:ring-sage/10"
+          >
+            <option value="">Select your meal preference</option>
+            {form.meals.map((meal) => (
+              <option value={meal.value}>{meal.label}</option>
+            ))}
+          </select>
+        </div>
+
+        <!-- Dietary -->
+        <div x-show="attending === 'yes'" x-transition>
+          <label class="block mb-2 text-sm uppercase tracking-wider text-botanical font-medium">
+            Dietary Restrictions / Allergies
+          </label>
+          <textarea
+            rows="3"
+            placeholder="Please let us know of any dietary restrictions or allergies"
+            class="w-full px-6 py-4 border-2 border-mist bg-white transition-all duration-300 focus:outline-none focus:border-sage focus:ring-4 focus:ring-sage/10"
+          ></textarea>
+        </div>
+
+        <!-- Message -->
+        <div>
+          <label class="block mb-2 text-sm uppercase tracking-wider text-botanical font-medium">
+            Special Message (Optional)
+          </label>
+          <textarea
+            rows="4"
+            placeholder="Share a message or song request with us!"
+            class="w-full px-6 py-4 border-2 border-mist bg-white transition-all duration-300 focus:outline-none focus:border-sage focus:ring-4 focus:ring-sage/10"
+          ></textarea>
+        </div>
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="w-full bg-botanical text-white px-10 py-4 text-sm uppercase tracking-[0.15em] font-medium hover:bg-botanical/90 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+        >
+          {form.submitLabel}
+        </button>
+      </form>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,56 @@
+---
+import Countdown from './Countdown.astro';
+
+export interface HeroSectionProps {
+  backgroundImage?: string;
+  subtitle?: string;
+  coupleName?: string;
+  weddingDateText?: string;
+  countdownTarget?: string;
+}
+
+// Default data
+const {
+  backgroundImage = '/img/hero.jpg',
+  subtitle = "We're Getting Married",
+  coupleName = 'Emma & Lucas',
+  weddingDateText = 'June 15, 2026',
+  countdownTarget = '2026-06-15T15:00:00',
+} = Astro.props;
+---
+
+<section
+  id="home"
+  class="relative py-20 min-h-screen flex items-center justify-center overflow-hidden"
+>
+  <!-- Background -->
+  <div class="absolute inset-0">
+    <img
+      src={backgroundImage}
+      alt="Wedding"
+      class="w-full h-full object-cover"
+    />
+    <div class="absolute inset-0 bg-linear-to-b from-botanical/30 via-botanical/80 to-dark/90"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10 text-center text-white px-4 animate-fade-in-up">
+    <div class="mb-4">
+      <span class="inline-block text-base md:text-lg uppercase tracking-[0.3em] font-light mb-4">
+        {subtitle}
+      </span>
+      <div class="w-40 h-0.5 bg-linear-to-r from-transparent via-white to-transparent mx-auto my-8"></div>
+    </div>
+
+    <h1 class="font-serif text-7xl md:text-8xl lg:text-9xl font-light mb-8 tracking-wide">
+      {coupleName}
+    </h1>
+
+    <p class="text-xl md:text-2xl font-light tracking-[0.3em] mb-12">
+      {weddingDateText}
+    </p>
+
+    <!-- Countdown -->
+    <Countdown targetDate={countdownTarget} />
+  </div>
+</section>

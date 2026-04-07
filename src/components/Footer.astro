@@ -1,0 +1,69 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface FooterLink {
+  label: string;
+  href: string;
+}
+
+export interface FooterProps {
+  links?: FooterLink[];
+  backgroundImage?: string;
+  madeWithText?: string;
+  copyrightText?: string;
+  heartIcon?: string;
+}
+
+const {
+  links = [
+    { label: 'Home', href: '#home' },
+    { label: 'Story', href: '#story' },
+    { label: 'Details', href: '#details' },
+    { label: 'RSVP', href: '#rsvp' },
+  ] as FooterLink[],
+  backgroundImage = '/img/bg-pattern.png',
+  madeWithText = 'Made with love for our special day',
+  copyrightText = '© 2026 Emma & Lucas. All rights reserved.',
+  heartIcon = 'bi:heart-fill',
+} = Astro.props;
+---
+
+<footer
+  class="bg-botanical relative text-white py-16 bg-repeat"
+  style={`background-image: url('${backgroundImage}');`}
+>
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-linear-to-b from-botanical/95 to-botanical"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 text-center">
+    <!-- Footer Navigation -->
+    <div class="flex justify-center gap-6 mb-8 flex-wrap items-center">
+      {links.map((item: FooterLink, index: number) => (
+        <>
+          <a
+            href={item.href}
+            class="hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
+          >
+            {item.label}
+          </a>
+
+          {index < links.length - 1 && (
+            <span class="opacity-50">•</span>
+          )}
+        </>
+      ))}
+    </div>
+
+    <!-- Bottom -->
+    <div class="border-t border-white/20 pt-8">
+      <p class="text-sm opacity-75 mb-3 flex items-center justify-center gap-2">
+        <span>{madeWithText.replace('love', '')}</span>
+        <Icon name={heartIcon} class="w-4 h-4 text-sage" />
+      </p>
+
+      <p class="text-xs opacity-60 mt-2">
+        {copyrightText}
+      </p>
+    </div>
+  </div>
+</footer>
