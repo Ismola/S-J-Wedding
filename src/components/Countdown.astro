@@ -14,12 +14,12 @@ export interface CountdownProps {
 const {
   targetDate = '2026-06-15T15:00:00',
   labels = {
-    days: 'Days',
-    hours: 'Hours',
-    minutes: 'Minutes',
-    seconds: 'Seconds',
+    days: 'Días',
+    hours: 'Horas',
+    minutes: 'Minutos',
+    seconds: 'Segundos',
   },
-  completedMessage = '🎉 The wedding ceremony was successfully',
+  completedMessage = '🎉 La ceremonia de la boda fue un éxito',
 } = Astro.props;
 
 const countdownId = `countdown-${Math.random().toString(36).slice(2)}`;
