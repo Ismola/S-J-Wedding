@@ -25,6 +25,7 @@ type ContactCard = {
   image: string;
   email?: string;
   phone?: string;
+  phone_two?: string;
   note?: string;
 };
 
@@ -39,9 +40,9 @@ const contacts: ContactCard[] = [
   {
     name: "Sergio & Judit",
     role: "Los novios",
-    image: "/img/gallery4.jpg",
+    image: "/img/IMG_4735.JPG",
     phone: "644 45 52 35 (Sergio)",
-        note: "601 18 09 04 (Judit)",
+    phone_two: "601 18 09 04 (Judit)",
 
     // phone: "647 47 97 34",
   },
@@ -126,6 +127,13 @@ const hashtag = "#EmmaAndLucasForever";
                 {item.phone}
               </p>
             )}
+
+              {item.phone_two && (
+                <p class="text-gray-600 flex items-center justify-center gap-2 mt-2">
+                  <Icon name="bi:telephone" class="text-sage" />
+                  {item.phone_two}
+                </p>
+              )}
 
             {item.note && <p class="text-sm text-gray-500 mt-4">{item.note}</p>}
           </div>
