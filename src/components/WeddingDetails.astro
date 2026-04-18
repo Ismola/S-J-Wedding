@@ -9,9 +9,9 @@ import HeadingTitle from './HeadingTitle.astro';
 ========================= */
 const section = {
   id: 'details',
-  title: 'Wedding Details',
+  title: 'Detalles de la boda',
   description:
-    'Join us for a day of celebration filled with love, laughter, and unforgettable memories',
+    'Únete a nosotros para un día de celebración lleno de amor, risas y recuerdos inolvidables',
 };
 
 /* =========================
@@ -21,69 +21,69 @@ const weddingCards = [
   {
     image: '/img/hero.jpg',
     imageAlt: 'Rose Garden',
-    title: 'Ceremony',
-    tagline: 'Where two hearts become one',
+    title: 'Ceremonia',
+    tagline: 'Donde dos corazones se convierten en uno',
     headerIcon: 'bi:heart-fill',
     mapUrl: 'https://maps.google.com',
     items: [
       {
         icon: 'bi:calendar-event',
-        label: 'Date',
+        label: 'Fecha',
         title: 'Viernes, 19 Junio, 2026',
-        subtitle: 'Summer Season',
+        // subtitle: 'Summer Season',
       },
       {
         icon: 'bi:clock',
-        label: 'Time',
-        title: '4:00 PM',
-        subtitle: 'Please arrive 15 minutes early',
+        label: 'Hora',
+        title: '18:00 ',
+        subtitle: 'Por favor, llegad 30 minutos antes',
       },
       {
         icon: 'bi:geo-alt-fill',
-        label: 'Venue',
-        title: 'Rose Garden Estate',
-        description: '1234 Bloom Street\nPortland, OR 97201',
+        label: 'Lugar',
+        title: 'Salón de Asambleas de los Testigos de Jehová',
+        description: 'Carreterá Torrejón-Ajalvir (M-108) km 5\n28864 Ajalvir, Madrid',
       },
-      {
-        icon: 'bi:hourglass-split',
-        label: 'Duration',
-        title: '45 minutes',
-        subtitle: 'Outdoor garden ceremony',
-      },
+      // {
+      //   icon: 'bi:hourglass-split',
+      //   label: 'Duración',
+      //   title: '45 minutos',
+      //   subtitle: 'Outdoor garden ceremony',
+      // },
     ],
   },
   {
     image: '/img/ballroom.jpg',
     imageAlt: 'Grand Ballroom',
-    title: 'Reception',
-    tagline: 'Celebrate with us in elegance',
+    title: 'Banquete',
+    tagline: 'Celebración, comida y baile para recordar toda la vida',
     headerIcon: 'bi:stars',
     mapUrl: 'https://maps.google.com',
     items: [
-      {
+ {
         icon: 'bi:calendar-event',
-        label: 'Date',
-        title: 'Saturday, June 15, 2026',
-        subtitle: 'Same evening celebration',
+        label: 'Fecha',
+        title: 'Viernes, 19 Junio, 2026',
+        // subtitle: 'Summer Season',
       },
       {
         icon: 'bi:clock',
-        label: 'Time',
-        title: '6:30 PM – 11:30 PM',
-        subtitle: 'Cocktail hour starts at 6:30 PM',
+        label: 'Hora',
+        title: '20:00',
+        subtitle: 'Antes de esta hora, estaremos haciéndonos fotos',
       },
       {
         icon: 'bi:geo-alt-fill',
-        label: 'Venue',
-        title: 'The Grand Ballroom',
-        description: '5678 Celebration Ave\nPortland, OR 97202',
+        label: 'Lugar',
+        title: 'Complejo el Olivar',
+        description: 'Camino del Olivar, C. de Méjico, 9, 18, 28806 Alcalá de Henares, Madrid',
       },
-      {
-        icon: 'bi:music-note-beamed',
-        label: 'Entertainment',
-        title: 'Live Band & DJ',
-        subtitle: 'Dinner, dancing & celebration',
-      },
+      // {
+      //   icon: 'bi:music-note-beamed',
+      //   label: 'Entertainment',
+      //   title: 'Live Band & DJ',
+      //   subtitle: 'Dinner, dancing & celebration',
+      // },
     ],
   },
 ];
@@ -229,7 +229,7 @@ const importantInfo = {
     <RundownModal {...rundown} />
 
     <!-- Important Info -->
-    <div class="max-w-6xl mx-auto">
+    <!-- <div class="max-w-6xl mx-auto">
       <div class="text-center mb-10">
         <h3 class="font-serif text-4xl font-semibold text-botanical">
           {importantInfo.title}
@@ -254,6 +254,6 @@ const importantInfo = {
           </div>
         ))}
       </div>
-    </div>
+    </div> -->
   </div>
 </section>

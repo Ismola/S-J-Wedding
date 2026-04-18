@@ -1,18 +1,18 @@
 ---
-import HeadingTitle from './HeadingTitle.astro';
-import { Icon } from 'astro-icon/components';
+import HeadingTitle from "./HeadingTitle.astro";
+import { Icon } from "astro-icon/components";
 
 /* =========================
    SECTION CONFIG
 ========================= */
 const section = {
-  id: 'contact',
-  title: 'Get In Touch',
+  id: "contact",
+  title: "Get In Touch",
   description:
-    'Have questions? Need more information? Feel free to reach out to our wedding planner or contact us directly.',
+    "Have questions? Need more information? Feel free to reach out to our wedding planner or contact us directly.",
   decorations: {
-    bottomLeft: '/img/bottom-left-flower.png',
-    bottomRight: '/img/bottom-right-flower.png',
+    bottomLeft: "/img/bottom-left-flower.png",
+    bottomRight: "/img/bottom-right-flower.png",
   },
 };
 
@@ -30,18 +30,20 @@ type ContactCard = {
 
 const contacts: ContactCard[] = [
   {
-    name: 'Jennifer Rose Events',
-    role: 'Wedding Planner',
-    image: '/img/planner.jpg',
-    email: 'jennifer@roseevents.com',
-    phone: '(503) 555-0123',
+    name: "Josué Sánchez",
+    role: "Director del banquete",
+    image: "/img/planner.jpg",
+    // email: 'jennifer@roseevents.com',
+    phone: "647 47 97 34",
   },
   {
-    name: 'Emma & Lucas',
-    role: 'The Couple',
-    image: '/img/gallery4.jpg',
-    email: 'emmaandlucas2026@email.com',
-    note: 'For day-of emergencies, please contact our wedding planner',
+    name: "Sergio & Judit",
+    role: "Los novios",
+    image: "/img/gallery4.jpg",
+    phone: "644 45 52 35 (Sergio)",
+        note: "601 18 09 04 (Judit)",
+
+    // phone: "647 47 97 34",
   },
 ];
 
@@ -56,23 +58,23 @@ type SocialItem = {
 
 const socials: SocialItem[] = [
   {
-    name: 'Instagram',
-    icon: 'bi:instagram',
-    url: '#',
+    name: "Instagram",
+    icon: "bi:instagram",
+    url: "#",
   },
   {
-    name: 'Facebook',
-    icon: 'bi:facebook',
-    url: '#',
+    name: "Facebook",
+    icon: "bi:facebook",
+    url: "#",
   },
   {
-    name: 'Pinterest',
-    icon: 'bi:pinterest',
-    url: '#',
+    name: "Pinterest",
+    icon: "bi:pinterest",
+    url: "#",
   },
 ];
 
-const hashtag = '#EmmaAndLucasForever';
+const hashtag = "#EmmaAndLucasForever";
 ---
 
 <section id={section.id} class="py-20 md:py-24 relative bg-ivory">
@@ -92,52 +94,43 @@ const hashtag = '#EmmaAndLucasForever';
 
   <div class="max-w-7xl mx-auto relative px-4">
     <!-- Heading -->
-    <HeadingTitle
-      title={section.title}
-      description={section.description}
-    />
+    <HeadingTitle title={section.title} description={section.description} />
 
     <!-- Contact Cards -->
     <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 mb-16">
-      {contacts.map((item: ContactCard) => (
-        <div class="bg-white p-10 shadow-lg border border-mist text-center">
-          <div class="size-24 rounded-full overflow-hidden mx-auto mb-6">
-            <img
-              src={item.image}
-              alt={item.name}
-              loading="lazy"
-              class="w-full h-full object-cover"
-            />
+      {
+        contacts.map((item: ContactCard) => (
+          <div class="bg-white p-10 shadow-lg border border-mist text-center">
+            <div class="size-24 rounded-full overflow-hidden mx-auto mb-6">
+              <img
+                src={item.image}
+                alt={item.name}
+                loading="lazy"
+                class="w-full h-full object-cover"
+              />
+            </div>
+
+            <h3 class="text-2xl font-semibold mb-1">{item.name}</h3>
+            <p class="font-serif text-botanical mb-4">{item.role}</p>
+
+            {item.email && (
+              <p class="text-gray-600 mb-2 flex items-center justify-center gap-2">
+                <Icon name="bi:envelope" class="text-sage" />
+                {item.email}
+              </p>
+            )}
+
+            {item.phone && (
+              <p class="text-gray-600 flex items-center justify-center gap-2">
+                <Icon name="bi:telephone" class="text-sage" />
+                {item.phone}
+              </p>
+            )}
+
+            {item.note && <p class="text-sm text-gray-500 mt-4">{item.note}</p>}
           </div>
-
-          <h3 class="text-2xl font-semibold mb-1">
-            {item.name}
-          </h3>
-          <p class="font-serif text-botanical mb-4">
-            {item.role}
-          </p>
-
-          {item.email && (
-            <p class="text-gray-600 mb-2 flex items-center justify-center gap-2">
-              <Icon name="bi:envelope" class="text-sage" />
-              {item.email}
-            </p>
-          )}
-
-          {item.phone && (
-            <p class="text-gray-600 flex items-center justify-center gap-2">
-              <Icon name="bi:telephone" class="text-sage" />
-              {item.phone}
-            </p>
-          )}
-
-          {item.note && (
-            <p class="text-sm text-gray-500 mt-4">
-              {item.note}
-            </p>
-          )}
-        </div>
-      ))}
+        ))
+      }
     </div>
 
     <!-- Social -->
