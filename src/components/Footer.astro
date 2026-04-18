@@ -22,7 +22,7 @@ const {
     // { label: 'RSVP', href: '#rsvp' },
   ] as FooterLink[],
   backgroundImage = '/img/bg-pattern.png',
-  madeWithText = 'Made with love for our special day',
+  madeWithText = 'Hecho con cariño para vuestro gran día',
   copyrightText = '© 2026 Ismola',
   heartIcon = 'bi:heart-fill',
 } = Astro.props;
@@ -37,7 +37,7 @@ const {
 
   <div class="relative max-w-7xl mx-auto px-4 text-center">
     <!-- Footer Navigation -->
-    <div class="flex justify-center gap-6 mb-8 flex-wrap items-center">
+    <!-- <div class="flex justify-center gap-6 mb-8 flex-wrap items-center">
       {links.map((item: FooterLink, index: number) => (
         <>
           <a
@@ -52,10 +52,10 @@ const {
           )}
         </>
       ))}
-    </div>
+    </div> -->
 
     <!-- Bottom -->
-    <div class="border-t border-white/20 pt-8">
+    <!-- <div class="border-t border-white/20 pt-8"> -->
       <p class="text-sm opacity-75 mb-3 flex items-center justify-center gap-2">
         <span>{madeWithText.replace('love', '')}</span>
         <Icon name={heartIcon} class="w-4 h-4 text-sage" />
