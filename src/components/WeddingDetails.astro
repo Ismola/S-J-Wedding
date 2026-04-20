@@ -10,8 +10,7 @@ import HeadingTitle from "./HeadingTitle.astro";
 const section = {
   id: "details",
   title: "Detalles de la boda",
-  description:
-    "",
+  description: "",
 };
 // Cambiar el links de direcciones
 /* =========================
@@ -42,8 +41,7 @@ const weddingCards = [
         icon: "bi:geo-alt-fill",
         label: "Lugar",
         title: "Salón de Asambleas de los Testigos de Jehová",
-        description:
-          "Vía de Servicio, 1D, 28864 Ajalvir, Madrid",
+        description: "Vía de Servicio, 1D, 28864 Ajalvir, Madrid",
       },
       // {
       //   icon: 'bi:hourglass-split',
@@ -60,6 +58,9 @@ const weddingCards = [
     tagline: "Celebración, comida y baile para recordar toda la vida",
     headerIcon: "bi:stars",
     mapUrl: "https://maps.app.goo.gl/P1FNeSYqacfck3a97",
+    showAllergyButton: true,
+    allergyApiPath: "/api/allergies",
+    allergyListPath: "/alergias",
     items: [
       // {
       //   icon: "bi:calendar-event",

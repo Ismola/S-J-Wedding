@@ -21,6 +21,10 @@ export interface WeddingCardProps {
   headerIcon?: string; // astro-icon name
   items: CardItem[];
   mapUrl?: string;
+  showAllergyButton?: boolean;
+  allergyApiPath?: string;
+  allergyListPath?: string;
+  allergyStorageKey?: string;
 }
 
 const {
@@ -31,10 +35,81 @@ const {
   headerIcon = 'bi:heart-fill',
   items,
   mapUrl = 'https://maps.google.com',
+  showAllergyButton = false,
+  allergyApiPath = '/api/allergies',
+  allergyListPath = '/alergias',
+  allergyStorageKey = 'sj-wedding-allergies',
 } = Astro.props;
+
+const alpineState = showAllergyButton
+  ? `{
+      showAllergyModal: false,
+      guestName: '',
+      guestAllergy: '',
+      allergies: [],
+      saving: false,
+      error: '',
+      success: '',
+      init() {
+        try {
+          const saved = localStorage.getItem('${allergyStorageKey}');
+          this.allergies = saved ? JSON.parse(saved) : [];
+        } catch (error) {
+          console.error('No se pudieron cargar las alergias guardadas.', error);
+        }
+      },
+      async saveAllergy() {
+        this.error = '';
+        this.success = '';
+
+        const name = this.guestName.trim();
+        const allergy = this.guestAllergy.trim();
+
+        if (!name || !allergy) {
+          this.error = 'Completa el nombre y la alergia o intolerancia.';
+          return;
+        }
+
+        const entry = {
+          id: Date.now(),
+          name,
+          allergy,
+          createdAt: new Date().toISOString(),
+        };
+
+        this.allergies = [entry, ...this.allergies];
+        localStorage.setItem('${allergyStorageKey}', JSON.stringify(this.allergies));
+        this.saving = true;
+
+        try {
+          const response = await fetch('${allergyApiPath}', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(entry),
+          });
+
+          if (!response.ok) {
+            throw new Error('Error al guardar en MongoDB');
+          }
+
+          this.success = 'Alergia guardada correctamente.';
+          this.guestName = '';
+          this.guestAllergy = '';
+          this.showAllergyModal = false;
+        } catch (error) {
+          console.error(error);
+          this.error = 'Se ha guardado en este dispositivo, pero no se pudo sincronizar con la base de datos.';
+        } finally {
+          this.saving = false;
+        }
+      }
+    }`
+  : '{}';
 ---
 
-<div class="bg-white rounded-xl shadow-sm border border-mist overflow-hidden hover:shadow-2xl transition-all duration-300">
+<div x-data={alpineState} class="bg-white rounded-xl shadow-sm border border-mist overflow-hidden hover:shadow-2xl transition-all duration-300">
   <!-- Image -->
   <div class="relative overflow-hidden group">
     <img
@@ -77,23 +152,130 @@ const {
       </div>
     ))}
 
-    <div class="mt-8 flex gap-3">
-      <a
-        href={mapUrl}
-        target="_blank"
-        class="flex items-center py-3 px-6 bg-botanical text-white gap-2 rounded-lg hover:bg-botanical/90"
-      >
-        <Icon name="bi:map" class="w-5 h-5" />
-        Obtener dirección
-      </a>
+    <div class="mt-8 space-y-4">
+      <div class="flex flex-col  gap-3">
+        <a
+          href={mapUrl}
+          target="_blank"
+          class="flex items-center justify-center py-3 px-6 bg-botanical text-white gap-2 rounded-lg hover:bg-botanical/90"
+        >
+          <Icon name="bi:map" class="w-5 h-5" />
+          Obtener dirección
+        </a>
 
-      <!-- <button
-        @click="$dispatch('open-rundown')"
-        class="flex items-center gap-2 border-2 border-botanical text-botanical px-6 py-3 rounded-lg hover:bg-botanical hover:text-white transition-all"
-      >
-        <Icon name="bi:send" class="w-5 h-5" />
-        Rundown
-      </button> -->
+        {showAllergyButton && (
+          <button
+            type="button"
+            @click="showAllergyModal = true"
+            class="flex items-center justify-center gap-2 border-2 border-botanical text-botanical px-6 py-3 rounded-lg hover:bg-botanical hover:text-white transition-all"
+          >
+            <Icon name="bi:heart-pulse-fill" class="w-5 h-5" />
+            Añadir alergia o intolerancia
+          </button>
+        )}
+
+        <!-- <button
+          @click="$dispatch('open-rundown')"
+          class="flex items-center gap-2 border-2 border-botanical text-botanical px-6 py-3 rounded-lg hover:bg-botanical hover:text-white transition-all"
+        >
+          <Icon name="bi:send" class="w-5 h-5" />
+          Rundown
+        </button> -->
+      </div>
+
+      {showAllergyButton && (
+        <>
+          <p x-show="success" x-text="success" class="text-sm text-green-700 font-medium"></p>
+          <p x-show="error" x-text="error" class="text-sm text-rose-700 font-medium"></p>
+
+          <div class="rounded-xl border border-mist bg-mist/30 p-4" x-show="allergies.length > 0">
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <p class="text-sm font-semibold text-botanical">Alergias guardadas</p>
+              {/* <a href={allergyListPath} class="text-sm text-sage hover:underline">Ver listado</a> */}
+            </div>
+
+            <div class="space-y-2">
+              <template x-for="entry in allergies" :key="entry.id">
+                <div class="flex items-start gap-2 text-sm text-gray-700">
+                  <Icon name="bi:check-circle-fill" class="w-4 h-4 text-sage mt-0.5 shrink-0" />
+                  <p>
+                    <span class="font-semibold" x-text="entry.name"></span>
+                    <span> — </span>
+                    <span x-text="entry.allergy"></span>
+                  </p>
+                </div>
+              </template>
+            </div>
+          </div>
+
+          <div
+            x-show="showAllergyModal"
+            x-cloak
+            style="display: none;"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
+            @click="showAllergyModal = false"
+            @keydown.escape.window="showAllergyModal = false"
+          >
+            <div @click.stop class="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl">
+              <div class="mb-5 flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="font-serif text-3xl text-botanical">Alergias e intolerancias</h4>
+                  <p class="mt-1 text-sm text-gray-500">Añade el nombre del invitado y su alergia para el banquete.</p>
+                </div>
+                <button
+                  type="button"
+                  @click="showAllergyModal = false"
+                  class="rounded-full bg-sage/10 p-2 text-botanical hover:bg-sage/20"
+                >
+                  <Icon name="bi:x-lg" class="w-4 h-4" />
+                </button>
+              </div>
+
+              <form class="space-y-4" @submit.prevent="saveAllergy()">
+                <div>
+                  <label class="mb-2 block text-sm font-medium text-botanical">Nombre</label>
+                  <input
+                    type="text"
+                    x-model="guestName"
+                    placeholder="Nombre del invitado"
+                    class="w-full rounded-lg border border-mist px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sage/30"
+                  />
+                </div>
+
+                <div>
+                  <label class="mb-2 block text-sm font-medium text-botanical">Alergia o intolerancia</label>
+                  <textarea
+                    rows="3"
+                    x-model="guestAllergy"
+                    placeholder="Ej. frutos secos, lactosa, gluten..."
+                    class="w-full rounded-lg border border-mist px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sage/30"
+                  ></textarea>
+                </div>
+
+                <p x-show="error" x-text="error" class="text-sm text-rose-700"></p>
+
+                <div class="flex justify-end gap-3 pt-2">
+                  <button
+                    type="button"
+                    @click="showAllergyModal = false"
+                    class="rounded-lg border border-mist px-4 py-2 text-gray-600 hover:bg-mist/40"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="submit"
+                    :disabled="saving"
+                    class="rounded-lg bg-botanical px-5 py-2 text-white hover:bg-botanical/90 disabled:opacity-70"
+                  >
+                    <span x-show="!saving">Guardar</span>
+                    <span x-show="saving">Guardando...</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   </div>
 </div>

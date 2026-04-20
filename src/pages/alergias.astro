@@ -1,0 +1,75 @@
+---
+import HeadingTitle from "@src/components/HeadingTitle.astro";
+import MainLayout from "@src/layouts/MainLayout.astro";
+import { getAllergiesCollection } from "@src/lib/mongodb";
+
+let allergies: Array<{
+    id?: number;
+    name: string;
+    allergy: string;
+    createdAt: string;
+}> = [];
+let errorMessage = "";
+
+try {
+    const collection = await getAllergiesCollection();
+    allergies = await collection
+        .find({}, { projection: { _id: 0 } })
+        .sort({ createdAt: -1 })
+        .toArray();
+} catch (error) {
+    console.error("Error loading allergy list", error);
+    errorMessage = "No se ha podido cargar el listado de alergias por ahora.";
+}
+---
+
+<MainLayout
+    title="Listado de alergias | Sergio & Judit"
+    description="Listado de alergias e intolerancias registradas para el banquete"
+>
+    <section class="bg-ivory py-20 md:py-24">
+        <div class="mx-auto max-w-5xl px-4">
+            <HeadingTitle
+                title="Listado de alergias e intolerancias"
+                description="Aquí podrás revisar las alergias registradas para el banquete."
+                align="center"
+            />
+
+            {
+                errorMessage ? (
+                    <div class="rounded-xl border border-rose-200 bg-rose-50 px-5 py-4 text-rose-700">
+                        {errorMessage}
+                    </div>
+                ) : allergies.length > 0 ? (
+                    <div class="overflow-hidden rounded-2xl border border-mist bg-white shadow-sm">
+                        <div class="grid grid-cols-[1.2fr_1.5fr_1fr] gap-4 border-b border-mist bg-mist/40 px-5 py-4 text-sm font-semibold text-botanical">
+                            <p>Nombre</p>
+                            <p>Alergia o intolerancia</p>
+                            <p>Fecha</p>
+                        </div>
+
+                        <div class="divide-y divide-mist">
+                            {allergies.map((entry) => (
+                                <div class="grid grid-cols-1 gap-2 px-5 py-4 text-sm text-gray-700 md:grid-cols-[1.2fr_1.5fr_1fr] md:gap-4">
+                                    <p class="font-semibold text-botanical">
+                                        {entry.name}
+                                    </p>
+                                    <p>{entry.allergy}</p>
+                                    <p>
+                                        {new Date(
+                                            entry.createdAt,
+                                        ).toLocaleString("es-ES")}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ) : (
+                    <div class="rounded-xl border border-mist bg-white px-5 py-8 text-center text-gray-600 shadow-sm">
+                        Todavía no hay alergias registradas.
+                    </div>
+                )
+            }
+        </div>
+    </section>
+</MainLayout>
