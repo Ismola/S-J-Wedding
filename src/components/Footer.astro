@@ -1,5 +1,5 @@
 ---
-import { Icon } from 'astro-icon/components';
+import { Icon } from "astro-icon/components";
 
 export interface FooterLink {
   label: string;
@@ -16,15 +16,15 @@ export interface FooterProps {
 
 const {
   links = [
-    { label: 'Home', href: '#home' },
+    { label: "Home", href: "#home" },
     // { label: 'Story', href: '#story' },
-    { label: 'Details', href: '#details' },
+    { label: "Details", href: "#details" },
     // { label: 'RSVP', href: '#rsvp' },
   ] as FooterLink[],
-  backgroundImage = '/img/bg-pattern.png',
-  madeWithText = 'Hecho con cariño para vuestro gran día',
-  copyrightText = '© 2026 Ismola',
-  heartIcon = 'bi:heart-fill',
+  backgroundImage = "/img/bg-pattern.png",
+  madeWithText = "Hecho con cariño para vuestro gran día",
+  copyrightText = "©Ismola",
+  heartIcon = "bi:heart-fill",
 } = Astro.props;
 ---
 
@@ -33,7 +33,8 @@ const {
   style={`background-image: url('${backgroundImage}');`}
 >
   <!-- Overlay -->
-  <div class="absolute inset-0 bg-linear-to-b from-botanical/95 to-botanical"></div>
+  <div class="absolute inset-0 bg-linear-to-b from-botanical/95 to-botanical">
+  </div>
 
   <div class="relative max-w-7xl mx-auto px-4 text-center">
     <!-- Footer Navigation -->
@@ -56,14 +57,19 @@ const {
 
     <!-- Bottom -->
     <!-- <div class="border-t border-white/20 pt-8"> -->
-      <p class="text-sm opacity-75 mb-3 flex items-center justify-center gap-2">
-        <span>{madeWithText.replace('love', '')}</span>
-        <Icon name={heartIcon} class="w-4 h-4 text-sage" />
-      </p>
+    <p class="text-sm opacity-75 mb-3 flex items-center justify-center gap-2">
+      <span>{madeWithText.replace("love", "")}</span>
+      <Icon name={heartIcon} class="w-4 h-4 text-sage" />
+    </p>
 
-      <p class="text-xs opacity-60 mt-2">
+    <p class="text-xs opacity-60 mt-2">
+      <a
+        href="https://github.com/Ismola/S-J-Wedding"
+        target="_blank"
+        class=" hover:text-sage transition-colors "
+      >
         {copyrightText}
-      </p>
-    </div>
+      </a>
+    </p>
   </div>
 </footer>

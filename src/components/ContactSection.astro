@@ -111,8 +111,8 @@ const hashtag = "#EmmaAndLucasForever";
               />
             </div>
 
-            <h3 class="text-2xl font-semibold mb-1">{item.name}</h3>
-            <p class="font-serif text-botanical mb-4">{item.role}</p>
+            <h3 class="text-3xl font-semibold mb-1">{item.name}</h3>
+            <p class="font-serif text-xl  text-botanical mb-4">{item.role}</p>
 
             {item.email && (
               <p class="text-gray-600 mb-2 flex items-center justify-center gap-2">
@@ -128,12 +128,12 @@ const hashtag = "#EmmaAndLucasForever";
               </p>
             )}
 
-              {item.phone_two && (
-                <p class="text-gray-600 flex items-center justify-center gap-2 mt-2">
-                  <Icon name="bi:telephone" class="text-sage" />
-                  {item.phone_two}
-                </p>
-              )}
+            {item.phone_two && (
+              <p class="text-gray-600 flex items-center justify-center gap-2 mt-2 ">
+                <Icon name="bi:telephone" class="text-sage" />
+                {item.phone_two}
+              </p>
+            )}
 
             {item.note && <p class="text-sm text-gray-500 mt-4">{item.note}</p>}
           </div>
