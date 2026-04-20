@@ -19,20 +19,20 @@ export interface StorySectionProps {
 
 // Default data
 const {
-  sectionId = 'story',
-  sectionTitle = 'Nuestra historia',
-  image = '/img/IMG-20260205-WA0010.jpg',
-  imageAlt = 'How We Met',
+  sectionId = "story",
+  sectionTitle = "Nuestra historia",
+  image = "/img/story_final.webp",
+  imageAlt = "How We Met",
   // TODO cambiar frame
-  frameImage = '/img/frame2.png',
+  frameImage = "/img/frame2.png",
   stories = [
     {
-      title: 'Nuestra historia',
+      title: "Nuestra historia",
       // TODO cambiar saltos de lineas
       description:
-        '¿Costa o interior? ¿Mar o ciudad? ¿Calor o frío? ¿Canarias o Madrid? \nA veces se nos presiona para elegir, pero lo mejor aparece cuando aprendemos a disfrutar de las diferencias y matices de la variedad. Nuestra historia nació de esa mezcla: dos personas con orígenes y personalidades distintas (casi casi hasta idiomas diferentes) que se cruzaron en la obra del Salón de Asambleas de Madrid. Ni siquiera la distancia con Barcelona pudo evitar que en 2024 decidiéramos sumar lo mejor de cada uno de nosotros, decididos a crear la mejor historia que jamás hubiéramos imaginado. Ahora, en 2026, comienza esa historia, y para que empiece de la mejor manera, no podéis faltar vosotros (ustedes en canario), que nos habéis regalado vuestro cariño y amistad.',
-      flowerImage: '/img/flower1.png',
-      flowerAlt: 'flower',
+        "¿Costa o interior? ¿Mar o ciudad? ¿Calor o frío? ¿Canarias o Madrid? \n \nA veces se nos presiona para elegir, pero lo mejor aparece cuando aprendemos a disfrutar de las diferencias y matices de la variedad.\n\nNuestra historia nació de esa mezcla: dos personas con orígenes y personalidades distintas (casi casi hasta idiomas diferentes) que se cruzaron en la obra del Salón de Asambleas de Madrid.\n\nNi siquiera la distancia con Barcelona pudo evitar que en 2024 decidiéramos sumar lo mejor de cada uno de nosotros, decididos a crear la mejor historia que jamás hubiéramos imaginado.\n\nAhora, en 2026, comienza esa historia, y para que empiece de la mejor manera, no podéis faltar vosotros (ustedes en canario), que nos habéis regalado vuestro cariño y amistad.",
+      flowerImage: "/img/flower1.png",
+      flowerAlt: "flower",
     },
     // {
     //   title: 'The Proposal',
@@ -48,51 +48,53 @@ const {
 <section id={sectionId} class="py-20 md:py-24 bg-white relative">
   <div class="max-w-7xl mx-auto px-4 relative">
     <!-- Section Title -->
-     <HeadingTitle
-      title={sectionTitle}
-      align="center" />
+    <HeadingTitle title={sectionTitle} align="center" />
 
     <!-- Content -->
     <div class="grid lg:grid-cols-2 gap-12 items-center">
       <!-- Image -->
-      <div class="relative overflow-hidden aspect-[4/2.75] group">
+      <div class="relative overflow-hidden aspect-4/2.75 group">
         <img
           src={image}
           alt={imageAlt}
           loading="lazy"
           class="relative px-3 w-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
-        {frameImage && (
-          <img
-            src={frameImage}
-            alt="frame"
-            loading="lazy"
-            class="absolute inset-0 pointer-events-none"
-          />
-        )}
+        {
+          frameImage && (
+            <img
+              src={frameImage}
+              alt="frame"
+              loading="lazy"
+              class="absolute w-full inset-0 pointer-events-none"
+            />
+          )
+        }
       </div>
 
       <!-- Stories -->
       <div class="relative space-y-12">
-        {stories.map((story: StoryItem) => (
-          <div class="flex flex-col">
-            <h3 class="font-serif text-4xl font-light text-botanical mb-4 flex items-center">
-              {story.title}
-              {story.flowerImage && (
-                <img
-                  src={story.flowerImage}
-                  alt={story.flowerAlt ?? 'flower'}
-                  class="inline-flex ms-2 max-w-8"
-                  loading="lazy"
-                />
-              )}
-            </h3>
+        {
+          stories.map((story: StoryItem) => (
+            <div class="flex flex-col">
+              <h3 class="font-serif text-4xl font-light text-botanical mb-4 flex items-center">
+                {story.title}
+                {story.flowerImage && (
+                  <img
+                    src={story.flowerImage}
+                    alt={story.flowerAlt ?? "flower"}
+                    class="inline-flex ms-2 max-w-8"
+                    loading="lazy"
+                  />
+                )}
+              </h3>
 
-            <p class="text-gray-600 leading-relaxed text-lg">
-              {story.description}
-            </p>
-          </div>
-        ))}
+              <p class="text-gray-600 leading-relaxed text-lg whitespace-pre-line">
+                {story.description}
+              </p>
+            </div>
+          ))
+        }
       </div>
     </div>
   </div>
