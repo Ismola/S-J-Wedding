@@ -1,17 +1,17 @@
 ---
-import WeddingCard from './WeddingCard.astro';
-import RundownModal from './RundownModal.astro';
-import { Icon } from 'astro-icon/components';
-import HeadingTitle from './HeadingTitle.astro';
+import WeddingCard from "./WeddingCard.astro";
+import RundownModal from "./RundownModal.astro";
+import { Icon } from "astro-icon/components";
+import HeadingTitle from "./HeadingTitle.astro";
 
 /* =========================
    SECTION CONFIG
 ========================= */
 const section = {
-  id: 'details',
-  title: 'Detalles de la boda',
+  id: "details",
+  title: "Detalles de la boda",
   description:
-    'Únete a nosotros para un día de celebración lleno de amor, risas y recuerdos inolvidables',
+    "Únete a nosotros para un día de celebración lleno de amor, risas y recuerdos inolvidables",
 };
 // Cambiar el links de direcciones
 /* =========================
@@ -19,30 +19,31 @@ const section = {
 ========================= */
 const weddingCards = [
   {
-    image: '/img/ceremonia_final.webp',
-    imageAlt: 'Rose Garden',
-    title: 'Ceremonia',
-    tagline: 'Donde dos corazones se convierten en uno',
-    headerIcon: 'bi:heart-fill',
-    mapUrl: 'https://maps.google.com',
+    image: "/img/ceremonia_final.webp",
+    imageAlt: "Rose Garden",
+    title: "Ceremonia",
+    tagline: "Donde dos corazones se convierten en uno",
+    headerIcon: "bi:heart-fill",
+    mapUrl: "https://maps.app.goo.gl/1RNrjr5VRMBdcWnd7",
     items: [
+      // {
+      //   icon: "bi:calendar-event",
+      //   label: "Fecha",
+      //   title: "Viernes, 19 Junio, 2026",
+      //   // subtitle: 'Summer Season',
+      // },
       {
-        icon: 'bi:calendar-event',
-        label: 'Fecha',
-        title: 'Viernes, 19 Junio, 2026',
-        // subtitle: 'Summer Season',
+        icon: "bi:clock",
+        label: "Hora",
+        title: "18:00 ",
+        subtitle: "Por favor, llegad 30 minutos antes",
       },
       {
-        icon: 'bi:clock',
-        label: 'Hora',
-        title: '18:00 ',
-        subtitle: 'Por favor, llegad 30 minutos antes',
-      },
-      {
-        icon: 'bi:geo-alt-fill',
-        label: 'Lugar',
-        title: 'Salón de Asambleas de los Testigos de Jehová',
-        description: 'Carreterá Torrejón-Ajalvir (M-108) km 5\n28864 Ajalvir, Madrid',
+        icon: "bi:geo-alt-fill",
+        label: "Lugar",
+        title: "Salón de Asambleas de los Testigos de Jehová",
+        description:
+          "Vía de Servicio, 1D, 28864 Ajalvir, Madrid",
       },
       // {
       //   icon: 'bi:hourglass-split',
@@ -53,30 +54,31 @@ const weddingCards = [
     ],
   },
   {
-    image: '/img/ballroom_final.webp',
-    imageAlt: 'Grand Ballroom',
-    title: 'Banquete',
-    tagline: 'Celebración, comida y baile para recordar toda la vida',
-    headerIcon: 'bi:stars',
-    mapUrl: 'https://maps.google.com',
+    image: "/img/ballroom_final.webp",
+    imageAlt: "Grand Ballroom",
+    title: "Banquete",
+    tagline: "Celebración, comida y baile para recordar toda la vida",
+    headerIcon: "bi:stars",
+    mapUrl: "https://maps.app.goo.gl/P1FNeSYqacfck3a97",
     items: [
- {
-        icon: 'bi:calendar-event',
-        label: 'Fecha',
-        title: 'Viernes, 19 Junio, 2026',
-        // subtitle: 'Summer Season',
+      // {
+      //   icon: "bi:calendar-event",
+      //   label: "Fecha",
+      //   title: "Viernes, 19 Junio, 2026",
+      //   // subtitle: 'Summer Season',
+      // },
+      {
+        icon: "bi:clock",
+        label: "Hora",
+        title: "20:00",
+        subtitle: "Antes de esta hora, estaremos haciéndonos fotos",
       },
       {
-        icon: 'bi:clock',
-        label: 'Hora',
-        title: '20:00',
-        subtitle: 'Antes de esta hora, estaremos haciéndonos fotos',
-      },
-      {
-        icon: 'bi:geo-alt-fill',
-        label: 'Lugar',
-        title: 'Complejo El Olivar',
-        description: 'Camino del Olivar, C. de Méjico, 9, 18, 28806 Alcalá de Henares, Madrid',
+        icon: "bi:geo-alt-fill",
+        label: "Lugar",
+        title: "Complejo El Olivar",
+        description:
+          "Camino del Olivar, C. de Méjico, 9, 18, 28806 Alcalá de Henares, Madrid",
       },
       // {
       //   icon: 'bi:music-note-beamed',
@@ -92,63 +94,57 @@ const weddingCards = [
    RUNDOWN MODAL
 ========================= */
 const rundown = {
-  title: 'Day Timeline',
+  title: "Day Timeline",
   subtitle: "Here's how our special day will unfold",
   timeline: [
     {
-      time: '3:45',
-      period: 'PM',
-      icon: 'bi:door-open',
-      title: 'Guest Arrival',
-      description: 'Please arrive and find your seats at Rose Garden Estate',
+      time: "3:45",
+      period: "PM",
+      icon: "bi:door-open",
+      title: "Guest Arrival",
+      description: "Please arrive and find your seats at Rose Garden Estate",
     },
     {
-      time: '4:00',
-      period: 'PM',
-      icon: 'bi:heart-fill',
-      title: 'Ceremony Begins',
-      description:
-        'Exchange of vows and rings in the beautiful garden setting',
+      time: "4:00",
+      period: "PM",
+      icon: "bi:heart-fill",
+      title: "Ceremony Begins",
+      description: "Exchange of vows and rings in the beautiful garden setting",
     },
     {
-      time: '4:45',
-      period: 'PM',
-      icon: 'bi:camera',
-      title: 'Photos & Cocktails',
-      description:
-        'Enjoy cocktails and appetizers while we capture memories',
+      time: "4:45",
+      period: "PM",
+      icon: "bi:camera",
+      title: "Photos & Cocktails",
+      description: "Enjoy cocktails and appetizers while we capture memories",
     },
     {
-      time: '6:30',
-      period: 'PM',
-      icon: 'bi:stars',
-      title: 'Reception Begins',
-      description:
-        'Grand entrance and first dance at The Grand Ballroom',
+      time: "6:30",
+      period: "PM",
+      icon: "bi:stars",
+      title: "Reception Begins",
+      description: "Grand entrance and first dance at The Grand Ballroom",
     },
     {
-      time: '7:30',
-      period: 'PM',
-      icon: 'bi:cup-hot',
-      title: 'Dinner Service',
-      description:
-        'Three-course gourmet dinner with wine pairing',
+      time: "7:30",
+      period: "PM",
+      icon: "bi:cup-hot",
+      title: "Dinner Service",
+      description: "Three-course gourmet dinner with wine pairing",
     },
     {
-      time: '9:00',
-      period: 'PM',
-      icon: 'bi:music-note-beamed',
-      title: 'Dancing & Celebration',
-      description:
-        "Live band and DJ – let's party the night away!",
+      time: "9:00",
+      period: "PM",
+      icon: "bi:music-note-beamed",
+      title: "Dancing & Celebration",
+      description: "Live band and DJ – let's party the night away!",
     },
     {
-      time: '11:30',
-      period: 'PM',
-      icon: 'bi:balloon-heart',
-      title: 'Grand Farewell',
-      description:
-        'Sparkler send-off to end the perfect night',
+      time: "11:30",
+      period: "PM",
+      icon: "bi:balloon-heart",
+      title: "Grand Farewell",
+      description: "Sparkler send-off to end the perfect night",
     },
   ],
 };
@@ -157,53 +153,53 @@ const rundown = {
    IMPORTANT INFO
 ========================= */
 const importantInfo = {
-  title: 'Important Information',
-  subtitle: 'Everything you need to know for our special day',
+  title: "Important Information",
+  subtitle: "Everything you need to know for our special day",
   items: [
     {
-      icon: 'bi:palette-fill',
-      title: 'Dress Code',
-      text: 'Garden Formal / Cocktail Attire, Elegant & garden-inspired colors encouraged',
+      icon: "bi:palette-fill",
+      title: "Dress Code",
+      text: "Garden Formal / Cocktail Attire, Elegant & garden-inspired colors encouraged",
     },
     {
-      icon: 'bi:car-front-fill',
-      title: 'Parking',
-      text: 'Complimentary valet service at both venues',
+      icon: "bi:car-front-fill",
+      title: "Parking",
+      text: "Complimentary valet service at both venues",
     },
     {
-      icon: 'bi:cloud-sun-fill',
-      title: 'Weather',
-      text: '70–75°F expected, light jacket recommended',
+      icon: "bi:cloud-sun-fill",
+      title: "Weather",
+      text: "70–75°F expected, light jacket recommended",
     },
     {
-      icon: 'bi:people-fill',
-      title: 'Plus Ones',
-      text: 'Please refer to your invitation',
+      icon: "bi:people-fill",
+      title: "Plus Ones",
+      text: "Please refer to your invitation",
     },
     {
-      icon: 'bi:camera-fill',
-      title: 'Photography',
-      text: 'Unplugged ceremony, enjoy the moment',
+      icon: "bi:camera-fill",
+      title: "Photography",
+      text: "Unplugged ceremony, enjoy the moment",
     },
     {
-      icon: 'bi:gift-fill',
-      title: 'Gifts',
-      text: 'Your presence is enough',
+      icon: "bi:gift-fill",
+      title: "Gifts",
+      text: "Your presence is enough",
     },
     {
-      icon: 'bi:reception-4',
-      title: 'WiFi Available',
-      text: 'Network: EmmaLucas2026 (password at venue)',
+      icon: "bi:reception-4",
+      title: "WiFi Available",
+      text: "Network: EmmaLucas2026 (password at venue)",
     },
     {
-      icon: 'bi:balloon-heart-fill',
-      title: 'Kids Welcome',
-      text: 'Family-friendly event',
+      icon: "bi:balloon-heart-fill",
+      title: "Kids Welcome",
+      text: "Family-friendly event",
     },
     {
-      icon: 'bi:heart-pulse-fill',
-      title: 'Dietary Needs',
-      text: 'Please inform us via RSVP',
+      icon: "bi:heart-pulse-fill",
+      title: "Dietary Needs",
+      text: "Please inform us via RSVP",
     },
   ],
 };
@@ -216,13 +212,15 @@ const importantInfo = {
     @open-rundown.window="showModal = true"
   >
     <!-- Heading -->
-    <HeadingTitle title={section.title} align="center" description={section.description} />
+    <HeadingTitle
+      title={section.title}
+      align="center"
+      description={section.description}
+    />
 
     <!-- Wedding Cards -->
     <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto mb-20">
-      {weddingCards.map((card) => (
-        <WeddingCard {...card} />
-      ))}
+      {weddingCards.map((card) => <WeddingCard {...card} />)}
     </div>
 
     <!-- Rundown Modal -->
