@@ -128,7 +128,7 @@ const alpineState = `{
                         />
                     </div>
 
-                    <div>
+                    <!-- <div>
                         <label
                             class="mb-2 block text-sm font-medium text-botanical"
                             >Artista</label
@@ -139,7 +139,7 @@ const alpineState = `{
                             placeholder="Artista o grupo"
                             class="w-full rounded-lg border border-mist px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sage/30"
                         />
-                    </div>
+                    </div> -->
 
                     <p
                         x-show="success"
@@ -199,35 +199,33 @@ const alpineState = `{
                 <div
                     class="rounded-2xl border border-mist bg-white p-6 shadow-sm"
                 >
-                    <h3 class="font-serif text-2xl text-botanical">
-                        Opciones rápidas
-                    </h3>
+                    <h3 class="font-serif text-2xl text-botanical">Spotify</h3>
                     <p class="mt-2 text-gray-600">
                         Si te resulta más cómodo, también puedes abrir la
                         playlist y añadir tu propuesta allí.
                     </p>
 
                     <div class="mt-5 space-y-3">
-                        <a
+                        <!-- <a
                             href={section.listPath}
                             class="flex items-center justify-center gap-2 rounded-lg border-2 border-botanical px-5 py-3 text-botanical transition-all hover:bg-botanical hover:text-white"
                         >
                             <Icon name="bi:music-note-beamed" class="h-5 w-5" />
                             Ver música propuesta
-                        </a>
+                        </a> -->
 
                         <a
                             href={section.spotifyPlaylistUrl}
                             target="_blank"
                             rel="noreferrer"
-                            class="flex items-center justify-center gap-2 rounded-lg bg-sage px-5 py-3 text-white transition-all hover:bg-sage/90"
+                            class="flex items-center justify-center gap-2 rounded-lg bg-botanical px-5 py-3 text-white transition-all hover:bg-sage/90"
                         >
                             <Icon name="bi:stars" class="h-5 w-5" />
                             Abrir playlist de Spotify
                         </a>
                     </div>
                 </div>
-
+<!-- 
                 <div
                     class="rounded-2xl border border-mist bg-white p-6 shadow-sm"
                 >
@@ -235,7 +233,7 @@ const alpineState = `{
                         Puedes dejar una canción para animar la fiesta. Si
                         varias personas piden la misma, mejor todavía.
                     </p>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
