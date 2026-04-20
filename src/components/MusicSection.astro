@@ -1,0 +1,242 @@
+---
+import HeadingTitle from "./HeadingTitle.astro";
+import { Icon } from "astro-icon/components";
+
+const section = {
+    id: "music",
+    title: "Música",
+    description:
+        "¿Qué canción te gustaría escuchar en la boda? Añádela aquí y la tendremos en cuenta.",
+    apiPath: "/api/music",
+    listPath: "/musica",
+    spotifyPlaylistUrl: "https://open.spotify.com/",
+    storageKey: "sj-wedding-music",
+};
+
+const alpineState = `{
+  guestName: '',
+  songTitle: '',
+  artist: '',
+  requests: [],
+  saving: false,
+  error: '',
+  success: '',
+  init() {
+    try {
+      const saved = localStorage.getItem('${section.storageKey}');
+      this.requests = saved ? JSON.parse(saved) : [];
+    } catch (error) {
+      console.error('No se pudieron cargar las canciones guardadas.', error);
+    }
+  },
+  async saveSong() {
+    this.error = '';
+    this.success = '';
+
+    const guestName = this.guestName.trim();
+    const songTitle = this.songTitle.trim();
+    const artist = this.artist.trim();
+
+    if (!guestName || !songTitle) {
+      this.error = 'Completa tu nombre y la canción que propones.';
+      return;
+    }
+
+    const entry = {
+      id: Date.now(),
+      guestName,
+      songTitle,
+      artist,
+      createdAt: new Date().toISOString(),
+    };
+
+    this.requests = [entry, ...this.requests];
+    localStorage.setItem('${section.storageKey}', JSON.stringify(this.requests));
+    this.saving = true;
+
+    try {
+      const response = await fetch('${section.apiPath}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(entry),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al guardar la canción');
+      }
+
+      this.success = 'Canción guardada correctamente.';
+      this.guestName = '';
+      this.songTitle = '';
+      this.artist = '';
+    } catch (error) {
+      console.error(error);
+      this.error = 'Se ha guardado en este dispositivo, pero no se pudo sincronizar con la base de datos.';
+    } finally {
+      this.saving = false;
+    }
+  }
+}`;
+---
+
+<section id={section.id} class="bg-ivory py-20 md:py-24">
+    <div class="mx-auto max-w-7xl px-4">
+        <HeadingTitle
+            title={section.title}
+            description={section.description}
+            align="center"
+        />
+
+        <div class="grid gap-8 lg:grid-cols-[1.4fr_0.9fr]" x-data={alpineState}>
+            <div
+                class="rounded-2xl border border-mist bg-white p-6 shadow-sm md:p-8"
+            >
+                <h3 class="font-serif text-3xl text-botanical">
+                    Pide una canción
+                </h3>
+                <p class="mt-2 text-gray-600">
+                    Puedes dejarnos la canción que te apetece bailar para
+                    incluirla en la fiesta.
+                </p>
+
+                <form class="mt-6 space-y-4" @submit.prevent="saveSong()">
+                    <div>
+                        <label
+                            class="mb-2 block text-sm font-medium text-botanical"
+                            >Tu nombre</label
+                        >
+                        <input
+                            type="text"
+                            x-model="guestName"
+                            placeholder="Nombre"
+                            class="w-full rounded-lg border border-mist px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sage/30"
+                        />
+                    </div>
+
+                    <div>
+                        <label
+                            class="mb-2 block text-sm font-medium text-botanical"
+                            >Canción</label
+                        >
+                        <input
+                            type="text"
+                            x-model="songTitle"
+                            placeholder="Título de la canción"
+                            class="w-full rounded-lg border border-mist px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sage/30"
+                        />
+                    </div>
+
+                    <div>
+                        <label
+                            class="mb-2 block text-sm font-medium text-botanical"
+                            >Artista</label
+                        >
+                        <input
+                            type="text"
+                            x-model="artist"
+                            placeholder="Artista o grupo"
+                            class="w-full rounded-lg border border-mist px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sage/30"
+                        />
+                    </div>
+
+                    <p
+                        x-show="success"
+                        x-text="success"
+                        class="text-sm text-green-700 font-medium"
+                    >
+                    </p>
+                    <p
+                        x-show="error"
+                        x-text="error"
+                        class="text-sm text-rose-700 font-medium"
+                    >
+                    </p>
+
+                    <button
+                        type="submit"
+                        :disabled="saving"
+                        class="rounded-lg bg-botanical px-5 py-3 text-white hover:bg-botanical/90 disabled:opacity-70"
+                    >
+                        <span x-show="!saving">Guardar canción</span>
+                        <span x-show="saving">Guardando...</span>
+                    </button>
+                </form>
+
+                <div
+                    class="mt-6 rounded-xl border border-mist bg-mist/30 p-4"
+                    x-show="requests.length > 0"
+                >
+                    <p class="mb-3 text-sm font-semibold text-botanical">
+                        Tus canciones guardadas
+                    </p>
+                    <div class="space-y-2">
+                        <template x-for="entry in requests" :key="entry.id">
+                            <div
+                                class="flex items-start gap-2 text-sm text-gray-700"
+                            >
+                                <Icon
+                                    name="bi:check-circle-fill"
+                                    class="mt-0.5 h-4 w-4 shrink-0 text-sage"
+                                />
+                                <p>
+                                    <span
+                                        class="font-semibold"
+                                        x-text="entry.songTitle"></span>
+                                    <span x-show="entry.artist"> — </span>
+                                    <span x-text="entry.artist"></span>
+                                    <span class="text-gray-500"> · por </span>
+                                    <span x-text="entry.guestName"></span>
+                                </p>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div
+                    class="rounded-2xl border border-mist bg-white p-6 shadow-sm"
+                >
+                    <h3 class="font-serif text-2xl text-botanical">
+                        Opciones rápidas
+                    </h3>
+                    <p class="mt-2 text-gray-600">
+                        Si te resulta más cómodo, también puedes abrir la
+                        playlist y añadir tu propuesta allí.
+                    </p>
+
+                    <div class="mt-5 space-y-3">
+                        <a
+                            href={section.listPath}
+                            class="flex items-center justify-center gap-2 rounded-lg border-2 border-botanical px-5 py-3 text-botanical transition-all hover:bg-botanical hover:text-white"
+                        >
+                            <Icon name="bi:music-note-beamed" class="h-5 w-5" />
+                            Ver música propuesta
+                        </a>
+
+                        <a
+                            href={section.spotifyPlaylistUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            class="flex items-center justify-center gap-2 rounded-lg bg-sage px-5 py-3 text-white transition-all hover:bg-sage/90"
+                        >
+                            <Icon name="bi:stars" class="h-5 w-5" />
+                            Abrir playlist de Spotify
+                        </a>
+                    </div>
+                </div>
+
+                <div
+                    class="rounded-2xl border border-mist bg-white p-6 shadow-sm"
+                >
+                    <p class="text-sm text-gray-600">
+                        Puedes dejar una canción para animar la fiesta. Si
+                        varias personas piden la misma, mejor todavía.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

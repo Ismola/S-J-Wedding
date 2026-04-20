@@ -1,0 +1,44 @@
+---
+import HeadingTitle from "./HeadingTitle.astro";
+import { Icon } from "astro-icon/components";
+
+const section = {
+    id: "photos",
+    title: "Fotos",
+    description:
+        "Si haces fotos durante la boda, nos encantará que las compartas con nosotros.",
+    googlePhotosUrl: "https://photos.google.com/",
+};
+---
+
+<section id={section.id} class="bg-mist/40 py-20 md:py-24">
+    <div class="mx-auto max-w-5xl px-4">
+        <HeadingTitle
+            title={section.title}
+            description={section.description}
+            align="center"
+        />
+
+        <div
+            class="rounded-2xl border border-mist bg-white p-8 text-center shadow-sm"
+        >
+            <h3 class="font-serif text-3xl text-botanical">
+                Comparte tu álbum
+            </h3>
+            <p class="mx-auto mt-3 max-w-2xl text-gray-600">
+                Hemos preparado un álbum de Google Fotos para que subáis las
+                imágenes y vídeos del gran día.
+            </p>
+
+            <a
+                href={section.googlePhotosUrl}
+                target="_blank"
+                rel="noreferrer"
+                class="mt-6 inline-flex items-center gap-2 rounded-lg bg-botanical px-6 py-3 text-white transition-all hover:bg-botanical/90"
+            >
+                <Icon name="bi:camera-fill" class="h-5 w-5" />
+                Ir al álbum de Google Fotos
+            </a>
+        </div>
+    </div>
+</section>

@@ -7,6 +7,14 @@ export type AllergyEntry = {
     createdAt: string;
 };
 
+export type MusicEntry = {
+    id?: number;
+    guestName: string;
+    songTitle: string;
+    artist?: string;
+    createdAt: string;
+};
+
 const mongoUri = process.env.MONGO_URI ?? "mongodb://127.0.0.1:27017";
 const dbName = process.env.MONGO_DB_NAME ?? "sj_wedding";
 
@@ -28,4 +36,13 @@ export async function getAllergiesCollection() {
 
     const client = await globalForMongo._mongoClientPromise;
     return client.db(dbName).collection<AllergyEntry>("allergies");
+}
+
+export async function getMusicCollection() {
+    if (!globalForMongo._mongoClientPromise) {
+        globalForMongo._mongoClientPromise = createMongoClient();
+    }
+
+    const client = await globalForMongo._mongoClientPromise;
+    return client.db(dbName).collection<MusicEntry>("music_requests");
 }

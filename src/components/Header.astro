@@ -1,6 +1,6 @@
 ---
-import Logo from './Logo.astro';
-import { Icon } from 'astro-icon/components';
+import Logo from "./Logo.astro";
+import { Icon } from "astro-icon/components";
 
 export interface MenuItem {
   label: string;
@@ -14,13 +14,15 @@ export interface HeaderProps {
 
 // Default data
 const {
-  homeHref = '/',
+  homeHref = "/",
   menu = [
-    { label: 'Inicio', href: '#home' },
-    { label: 'Historia', href: '#story' },
-    { label: 'Detalles', href: '#details' },
-    { label: 'Horario', href: '#schedule' },
-    { label : 'Contacto', href: '#contact' },
+    { label: "Inicio", href: "#home" },
+    { label: "Historia", href: "#story" },
+    { label: "Detalles", href: "#details" },
+    { label: "Horario", href: "#schedule" },
+    { label: "Música", href: "#music" },
+    { label: "Fotos", href: "#photos" },
+    { label: "Contacto", href: "#contact" },
     // { label: 'Galería', href: '#gallery' },
     // { label: 'RSVP', href: '#rsvp' },
   ],
@@ -33,7 +35,6 @@ const {
 >
   <div class="max-w-7xl mx-auto px-4">
     <div class="flex justify-between items-center h-20">
-
       <!-- Logo -->
       <a href={homeHref} aria-label="Home">
         <Logo />
@@ -44,14 +45,13 @@ const {
         id="desktop-navbar"
         class="hidden lg:flex lg:items-center desktop-navbar"
       >
-        {menu.map((item: MenuItem) => (
-          <a
-            href={item.href}
-            class="menu-item nav-link"
-          >
-            {item.label}
-          </a>
-        ))}
+        {
+          menu.map((item: MenuItem) => (
+            <a href={item.href} class="menu-item nav-link">
+              {item.label}
+            </a>
+          ))
+        }
       </nav>
 
       <!-- Mobile Toggle Button -->
@@ -80,15 +80,17 @@ const {
       class="lg:hidden pb-6 space-y-4 mobile-navbar"
       style="display: none;"
     >
-      {menu.map((item: MenuItem) => (
-        <a
-          href={item.href}
-          x-on:click="open = false"
-          class="block text-sm uppercase tracking-widest text-botanical hover:text-yellow-600 transition-colors nav-link"
-        >
-          {item.label}
-        </a>
-      ))}
+      {
+        menu.map((item: MenuItem) => (
+          <a
+            href={item.href}
+            x-on:click="open = false"
+            class="block text-sm uppercase tracking-widest text-botanical hover:text-yellow-600 transition-colors nav-link"
+          >
+            {item.label}
+          </a>
+        ))
+      }
     </nav>
   </div>
 </header>
