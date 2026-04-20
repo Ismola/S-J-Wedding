@@ -198,6 +198,7 @@ Puedes actualizar ceremonia y banquete en:
 
 - [ ] Cambiar frame de "Nuestra historia"
 - [ ] Añadir link definitivo del álbum de fotos
+- [ ] Hora en canarias
 
 ## Notas
 
