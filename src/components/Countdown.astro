@@ -30,7 +30,7 @@ const {
     {
       id: "pre-wedding-photo",
       message:
-        "Nos gustaría tener alguna foto tuya antes de la boda. Si quieres compartir alguna foto tuya, por favor envíala a través de WhatsApp. ¡Muchas gracias!",
+        "Nos gustaría tener alguna foto tuya antes de la boda. Si quieres compartirla, por favor envíala a través de WhatsApp. \n¡Muchas gracias! ❤️",
     },
   ] as NotificationItem[],
 } = Astro.props;
@@ -43,12 +43,12 @@ const countdownId = `countdown-${Math.random().toString(36).slice(2)}`;
     notifications.length > 0 && (
       <div
         data-notifications
-        class="sticky top-4 z-9999 mb-6 mx-auto w-full max-w-3xl space-y-3"
+        class="fixed top-25 left-3 md:left-6 z-9999 space-y-3 pointer-events-none"
       >
         {notifications.map((notification: NotificationItem) => (
           <div
             data-notification={notification.id}
-            class="hidden relative rounded-2xl border border-white/30 bg-white/15 backdrop-blur-lg p-4 md:p-5 text-left text-white shadow-2xl pointer-events-auto"
+            class="hidden relative w-[calc(100vw-1.5rem)] md:w-full max-w-md rounded-2xl border border-white/40 bg-botanical/85 backdrop-blur-lg p-4 md:p-5 text-left text-white shadow-2xl pointer-events-auto"
           >
             <button
               type="button"
@@ -58,7 +58,7 @@ const countdownId = `countdown-${Math.random().toString(36).slice(2)}`;
             >
               ×
             </button>
-            <p class="pr-10 text-sm md:text-base leading-relaxed">
+            <p class="pr-10 text-sm md:text-base leading-relaxed whitespace-pre-line">
               {notification.message}
             </p>
           </div>
