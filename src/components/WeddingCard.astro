@@ -41,6 +41,13 @@ const {
   allergyStorageKey = 'sj-wedding-allergies',
 } = Astro.props;
 
+function getOneHourBefore(timeStr: string): string | null {
+  const match = timeStr.match(/^(\d{1,2}):(\d{2})$/);
+  if (!match) return null;
+  const hours = (parseInt(match[1], 10) - 1 + 24) % 24;
+  return `${hours.toString().padStart(2, '0')}:${match[2]}`;
+}
+
 const alpineState = showAllergyButton
   ? `{
       showAllergyModal: false,
@@ -137,11 +144,23 @@ const alpineState = showAllergyButton
           <Icon name={item.icon} class="w-6 h-6 text-sage" />
         </div>
 
-        <div>
+        <div class="w-full">
+          <div class="flex flex-row justify-between w-full ">
+
           <p class="text-xs uppercase tracking-wider text-sage font-semibold mb-1">
             {item.label}
           </p>
+             {getOneHourBefore(item.title) && (
+            <p class="text-xs uppercase tracking-wider text-sage font-semibold mb-1">Canarias</p>
+          )}
+          </div>
+          <div class="flex flex-row justify-between w-full ">
+
           <p class="text-lg font-semibold text-botanical">{item.title}</p>
+          {getOneHourBefore(item.title) && (
+            <p class="text-lg font-semibold text-botanical">{getOneHourBefore(item.title)}</p>
+          )}
+          </div>
           {item.subtitle && (
             <p class="text-sm text-gray-500 mt-1">{item.subtitle}</p>
           )}
