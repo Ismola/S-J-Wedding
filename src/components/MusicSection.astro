@@ -91,7 +91,7 @@ const alpineState = `{
 
         <div class="grid gap-8 lg:grid-cols-[1.4fr_0.9fr]" x-data={alpineState}>
             <div
-                class="rounded-2xl border border-mist bg-white p-6 shadow-sm md:p-8"
+                class="rounded-2xl border border-mist bg-white p-6 shadow-sm md:p-8 hover:shadow-2xl transition-all duration-300"
             >
                 <h3 class="font-serif text-3xl text-botanical">
                     Pide una canción
@@ -197,7 +197,7 @@ const alpineState = `{
 
             <div class="space-y-6">
                 <div
-                    class="rounded-2xl border border-mist bg-white p-6 shadow-sm"
+                    class="rounded-2xl border border-mist bg-white p-6 shadow-sm hover:shadow-2xl transition-all duration-300"
                 >
                     <h3 class="font-serif text-2xl text-botanical">Spotify</h3>
                     <p class="mt-2 text-gray-600">
@@ -218,7 +218,7 @@ const alpineState = `{
                             href={section.spotifyPlaylistUrl}
                             target="_blank"
                             rel="noreferrer"
-                            class="flex items-center justify-center gap-2 rounded-lg bg-botanical px-5 py-3 text-white transition-all hover:bg-sage/90"
+                            class="flex items-center justify-center gap-2 rounded-lg bg-botanical px-5 py-3 text-white transition-all hover:bg-botanical/90 disabled:opacity-70"
                         >
                             <Icon name="bi:stars" class="h-5 w-5" />
                             Abrir playlist de Spotify
