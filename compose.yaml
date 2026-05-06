@@ -10,8 +10,8 @@ services:
       PORT: ${PORT:-80}
       MONGO_URI: ${MONGO_URI:-mongodb://mongo:27017}
       MONGO_DB_NAME: ${MONGO_DB_NAME:-sj_wedding}
-    expose:
-      - "80"
+    ports:
+      - "4321:80"
     depends_on:
       - mongo
     networks:
