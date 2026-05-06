@@ -6,22 +6,28 @@
 function validateEnvironment() {
   const errors: string[] = [];
   const warnings: string[] = [];
+  const runtimeEnv = typeof process !== "undefined" ? process.env : {};
+
+  const mongoUri = (runtimeEnv.MONGO_URI ?? import.meta.env.MONGO_URI)?.trim();
+  const mongoDbName = runtimeEnv.MONGO_DB_NAME ?? import.meta.env.MONGO_DB_NAME;
+  const host = runtimeEnv.HOST ?? import.meta.env.HOST;
+  const port = runtimeEnv.PORT ?? import.meta.env.PORT;
 
   // MONGO_DB_NAME is always required.
-  if (!import.meta.env.MONGO_URI?.trim()) {
+  if (!mongoUri) {
     errors.push("Missing required variable: MONGO_URI");
   }
 
   // MONGO_DB_NAME is always required.
-  if (!import.meta.env.MONGO_DB_NAME) {
+  if (!mongoDbName) {
     errors.push("Missing required variable: MONGO_DB_NAME");
   }
 
   // Check optional variables with defaults
-  if (!import.meta.env.HOST) {
+  if (!host) {
     warnings.push("HOST not set, using default: 0.0.0.0");
   }
-  if (!import.meta.env.PORT) {
+  if (!port) {
     warnings.push("PORT not set, using default: 80");
   }
 

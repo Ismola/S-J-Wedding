@@ -15,10 +15,12 @@ interface EnvironmentVariables {
  * Validate and retrieve environment variables
  */
 function getEnvVariables(): EnvironmentVariables {
-  const mongoUri = import.meta.env.MONGO_URI?.trim();
-  const dbName = import.meta.env.MONGO_DB_NAME;
-  const host = import.meta.env.HOST;
-  const port = import.meta.env.PORT;
+  const runtimeEnv = typeof process !== "undefined" ? process.env : {};
+
+  const mongoUri = (runtimeEnv.MONGO_URI ?? import.meta.env.MONGO_URI)?.trim();
+  const dbName = runtimeEnv.MONGO_DB_NAME ?? import.meta.env.MONGO_DB_NAME;
+  const host = runtimeEnv.HOST ?? import.meta.env.HOST;
+  const port = runtimeEnv.PORT ?? import.meta.env.PORT;
 
   const missing: string[] = [];
 
