@@ -5,31 +5,23 @@
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
 	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
-		"ghcr.io/r3dpoint/devcontainer-features/tailwindcss-standalone-cli:1": {},
-		"ghcr.io/devcontainers/features/node:1": {
-			"version": "22.12.0"
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {
+			"version": "latest",
+			"enableNonRootDocker": "true",
+			"moby": "true"
+		},
+		"ghcr.io/devcontainers/features/node:2": {},
+		"ghcr.io/tailscale/codespace/tailscale": {
+			"version": "latest"
 		}
 	},
-	"containerEnv": {
-		"MONGO_URI": "mongodb://127.0.0.1:27017",
-		"MONGO_DB_NAME": "sj_wedding"
-	},
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"ismola.ismola-extension-pack",
-				"astro-build.astro-vscode",
-				"bradlc.vscode-tailwindcss"
-			]
-		}
-	},
-	"forwardPorts": [
-		4321,
-		27017
-	],
-	"postCreateCommand": "npm i",
-	"postStartCommand": "docker rm -f s-j-wedding-mongo >/dev/null 2>&1 || true && docker run -d --name s-j-wedding-mongo -p 27017:27017 -e MONGO_INITDB_DATABASE=sj_wedding mongo:7 >/dev/null"
+	"postCreateCommand": "npm i && sudo tailscale up --hostname=my-devcontainer",
+	
+	"postStartCommand": "docker rm -f s-j-wedding-mongo >/dev/null 2>&1 || true && docker run -d --name mongo -p 27017:27017 -e MONGO_INITDB_DATABASE=sj_wedding mongo:7 >/dev/null"
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "docker --version",
 	// Configure tool-specific properties.
 	// "customizations": {},
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.

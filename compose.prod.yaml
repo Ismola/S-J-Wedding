@@ -16,28 +16,12 @@ services:
       - mongo
     networks:
       - cloudflare_default
-      - wedding_internal
     restart: unless-stopped
-
-  mongo:
-    container_name: s-j-wedding-mongo
-    image: mongo:7
-    environment:
-      MONGO_INITDB_DATABASE: ${MONGO_DB_NAME:-sj_wedding}
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
-    networks:
-      - wedding_internal
-    restart: unless-stopped
-
-volumes:
-  mongo_data:
+    extra_hosts:
+          - "nombredelhostnas.tailscale.net:100.x.y.z" # Reemplaza con tu MagicDNS y IP de Tailscale
 
 
 networks:
   cloudflare_default:
     external: true
-  wedding_internal:
-    driver: bridge
+

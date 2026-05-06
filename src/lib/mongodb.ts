@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+import { getEnv } from "./env";
 
 export type AllergyEntry = {
     id?: number;
@@ -15,8 +16,9 @@ export type MusicEntry = {
     createdAt: string;
 };
 
-const mongoUri = process.env.MONGO_URI ?? "mongodb://127.0.0.1:27017";
-const dbName = process.env.MONGO_DB_NAME ?? "sj_wedding";
+const env = getEnv();
+const mongoUri = env.MONGO_URI;
+const dbName = env.MONGO_DB_NAME;
 
 type GlobalWithMongo = typeof globalThis & {
     _mongoClientPromise?: Promise<MongoClient>;

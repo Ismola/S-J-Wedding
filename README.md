@@ -73,11 +73,21 @@ docker run -d \
 Este proyecto usa estas variables:
 
 ```bash
-MONGO_URI=mongodb://127.0.0.1:27017
+MONGO_URI=mongodb://mongo:27017
 MONGO_DB_NAME=sj_wedding
 ```
 
-En el devcontainer ya quedan configuradas automáticamente.
+Puedes crear tu archivo local a partir del ejemplo:
+
+```bash
+cp .env.example .env
+```
+
+Si ejecutas la app fuera de Docker, normalmente te interesará cambiar:
+
+```bash
+MONGO_URI=mongodb://127.0.0.1:27017
+```
 
 ### 3. Ejecutar el servidor de desarrollo
 
@@ -111,6 +121,7 @@ npm run preview
 El proyecto incluye una app web y un contenedor de MongoDB.
 
 ```bash
+cp .env.example .env
 docker compose up --build -d
 ```
 
@@ -130,6 +141,21 @@ Si además quieres borrar el volumen de datos de Mongo:
 
 ```bash
 docker compose down -v
+```
+
+### Producción con `compose.prod.yaml`
+
+Incluye también MongoDB y usa las mismas variables de entorno definidas en `.env`.
+
+```bash
+cp .env.example .env
+docker compose -f compose.prod.yaml up --build -d
+```
+
+Para detenerlo:
+
+```bash
+docker compose -f compose.prod.yaml down
 ```
 
 ---
