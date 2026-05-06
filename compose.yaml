@@ -10,8 +10,8 @@ services:
       PORT: ${PORT:-80}
       MONGO_URI: ${MONGO_URI:-mongodb://h0:27017}
       MONGO_DB_NAME: ${MONGO_DB_NAME:-sj_wedding}
-    ports:
-      - "4321:80"
+    expose:
+      - "80"
     networks:
       - cloudflare_default
     restart: unless-stopped
