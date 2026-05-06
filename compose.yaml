@@ -8,36 +8,16 @@ services:
     environment:
       HOST: ${HOST:-0.0.0.0}
       PORT: ${PORT:-80}
-      MONGO_URI: ${MONGO_URI:-mongodb://mongo:27017}
+      MONGO_URI: ${MONGO_URI:-mongodb://h0:27017}
       MONGO_DB_NAME: ${MONGO_DB_NAME:-sj_wedding}
     ports:
       - "4321:80"
-    depends_on:
-      - mongo
     networks:
       - cloudflare_default
-      - wedding_internal
     restart: unless-stopped
-
-  mongo:
-    container_name: s-j-wedding-mongo
-    image: mongo:7
-    environment:
-      MONGO_INITDB_DATABASE: ${MONGO_DB_NAME:-sj_wedding}
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
-    networks:
-      - wedding_internal
-    restart: unless-stopped
-
-volumes:
-  mongo_data:
-
+    extra_hosts:
+      - "h0:${H0}"
 
 networks:
   cloudflare_default:
     external: true
-  wedding_internal:
-    driver: bridge
