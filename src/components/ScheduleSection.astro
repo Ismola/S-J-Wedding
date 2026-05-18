@@ -34,19 +34,28 @@ const schedules: ScheduleDay[] = [
       },
       {
         title: "Cóctel",
-        description: "A continuación de la ceremonia.",
+        description: "",
         time: "20:15",
       },
       {
         title: "Cena",
-        description:
-          "Tataki de salmón al soplete · Sorbete de limón · Solomillo de vaca braseado con patatas al horno · Cheese cake con confitura de arándanos · Opción de menús vegetarianos.",
+        description: `<div class="dinner-menu">
+            <p class="menu-eyebrow">Menú de la cena</p>
+            <ul>
+              <li>Tataki de salmón al soplete</li>
+              <li>Sorbete de limón</li>
+              <li>Solomillo de vaca braseado con patatas al horno</li>
+              <li>Cheese cake con confitura de arándanos</li>
+            </ul>
+            <p class="menu-note">Opción de menús vegetarianos</p>
+            <p class="menu-note">Se pueden avisar las alergias e intolerancias <a class="text-botanical underline cursor-pointer" onclick="document.getElementById('btn-add-allergy')?.click()">aquí</a></p>
+          </div>`,
         time: "21:30",
       },
       {
         title: "Baile",
         description: "Después de la cena.",
-        time: "Después de la cena",
+        time: "",
       },
     ],
   },
@@ -60,30 +69,42 @@ const schedules: ScheduleDay[] = [
     <HeadingTitle title={section.title} />
 
     <!-- Schedule List -->
-    <div class=" mx-auto space-y-6 ">
+    <div class="mx-auto space-y-8 max-w-5xl">
       {
         schedules.map((day: ScheduleDay) => (
-          <div class="bg-linear-to-br from-mist to-white border-l-4 border-botanical p-8 shadow-sm rounded-r-2xl">
-            <h3 class="font-serif text-3xl font-semibold text-botanical mb-6">
+          <div class="bg-linear-to-br from-mist to-white border border-botanical/20 p-6 md:p-8 shadow-sm rounded-2xl">
+            <h3 class="font-serif text-3xl font-semibold text-botanical mb-8">
               {day.dayTitle}
             </h3>
 
-            <div class={day.items.length > 1 ? "space-y-6" : ""}>
+            <div
+              class={
+                day.items.length > 1 ? "timeline-list relative space-y-5" : ""
+              }
+            >
+              {day.items.length > 1 && (
+                <div class="hidden sm:block absolute left-[8.45rem] top-2 bottom-2 w-px bg-botanical/25" />
+              )}
+
               {day.items.map((item: ScheduleItem) => (
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                  <div>
+                <div class="relative grid grid-cols-1 sm:grid-cols-[120px_1fr] gap-3 sm:gap-6 sm:items-start">
+                  <span class="font-serif text-2xl text-sage whitespace-nowrap sm:pt-4 tracking-wide ">
+                    {item.time}
+                  </span>
+
+                  <div class="relative rounded-2xl border border-botanical/15 bg-white/70 p-5 sm:p-6">
+                    <span class="hidden sm:block absolute -left-[1.6rem] top-7 h-3.5 w-3.5 rounded-full bg-botanical ring-4 ring-ivory" />
+
                     <p class="font-semibold text-lg text-botanical">
                       {item.title}
                     </p>
-                    <p
-                      class="schedule-description text-stone-600 mt-2 text-sm md:text-base leading-relaxed"
-                      set:html={item.description}
-                    />
+                    {item.description && (
+                      <div
+                        class="schedule-description text-stone-600 mt-2 text-sm md:text-base leading-relaxed"
+                        set:html={item.description}
+                      />
+                    )}
                   </div>
-
-                  <span class="font-serif text-2xl text-sage whitespace-nowrap">
-                    {item.time}
-                  </span>
                 </div>
               ))}
             </div>
@@ -117,5 +138,54 @@ const schedules: ScheduleDay[] = [
 
   .schedule-description :global(br) {
     line-height: 1.8;
+  }
+
+  .schedule-description :global(.dinner-menu) {
+    margin-top: 0.2rem;
+    /* border: 1px solid
+      color-mix(in srgb, var(--color-botanical) 20%, transparent); */
+    border-radius: 0.9rem;
+    /* background: linear-gradient(
+      180deg,
+      color-mix(in srgb, white 85%, var(--color-mist) 15%) 0%,
+      white 100%
+    ); */
+    padding: 0.8rem 0.9rem;
+  }
+
+  .schedule-description :global(.menu-eyebrow) {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--color-botanical) 75%, black 25%);
+    font-weight: 700;
+    margin-bottom: 0.45rem;
+  }
+
+  .schedule-description :global(.dinner-menu ul) {
+    margin: 0;
+    padding-left: 1rem;
+    list-style: "✦  ";
+    list-style-position: outside;
+  }
+
+  .schedule-description :global(.dinner-menu li) {
+    color: color-mix(in srgb, var(--color-botanical) 72%, black 28%);
+    line-height: 1.5;
+  }
+
+  .schedule-description :global(.dinner-menu li + li) {
+    margin-top: 0.22rem;
+  }
+
+  .schedule-description :global(.menu-note) {
+    display: inline-block;
+    margin-top: 0.65rem;
+    padding: 0.22rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--color-botanical) 85%, black 15%);
+    background: color-mix(in srgb, var(--color-sage) 18%, white 82%);
   }
 </style>
