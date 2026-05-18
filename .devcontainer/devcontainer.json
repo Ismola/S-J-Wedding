@@ -17,7 +17,16 @@
 	},
 	"postCreateCommand": "npm i && sudo tailscale up --hostname=my-devcontainer",
 	
-	"postStartCommand": "docker rm -f s-j-wedding-mongo >/dev/null 2>&1 || true && docker run -d --name mongo -p 27017:27017 -e MONGO_INITDB_DATABASE=sj_wedding mongo:7 >/dev/null"
+	"postStartCommand": "docker rm -f s-j-wedding-mongo >/dev/null 2>&1 || true && docker run -d --name mongo -p 27017:27017 -e MONGO_INITDB_DATABASE=sj_wedding mongo:7 >/dev/null",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ismola.ismola-extension-pack",
+				"astro-build.astro-vscode",
+				"bradlc.vscode-tailwindcss"
+			]
+		}
+	}
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 	// Use 'postCreateCommand' to run commands after the container is created.
