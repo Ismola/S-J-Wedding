@@ -1,12 +1,12 @@
 ---
-import HeadingTitle from './HeadingTitle.astro';
+import HeadingTitle from "./HeadingTitle.astro";
 
 /* =========================
    SECTION CONFIG
 ========================= */
 const section = {
-  id: 'schedule',
-  title: 'Hora',
+  id: "schedule",
+  title: "Itinerario",
 };
 
 /* =========================
@@ -25,52 +25,34 @@ type ScheduleDay = {
 
 const schedules: ScheduleDay[] = [
   {
-    dayTitle: 'Friday, June 14',
+    dayTitle: "Boda",
     items: [
       {
-        title: 'Welcome Dinner',
-        description: 'Riverside Restaurant - Casual Attire',
-        time: '7:00 PM',
-      },
-    ],
-  },
-  {
-    dayTitle: 'Saturday, June 15 - Wedding Day',
-    items: [
-      {
-        title: 'Ceremony',
-        description: 'Rose Garden Estate',
-        time: '4:00 PM',
+        title: "Ceremonia",
+        description: "Por favor, llegad entre 15 y 30 minutos antes.",
+        time: "18:00",
       },
       {
-        title: 'Cocktail Hour',
-        description: 'Garden Terrace',
-        time: '5:00 PM',
+        title: "Cóctel",
+        description: "A continuación de la ceremonia.",
+        time: "20:15",
       },
       {
-        title: 'Reception & Dinner',
-        description: 'The Grand Ballroom',
-        time: '6:30 PM',
+        title: "Cena",
+        description:
+          "Tataki de salmón al soplete · Sorbete de limón · Solomillo de vaca braseado con patatas al horno · Cheese cake con confitura de arándanos · Opción de menús vegetarianos.",
+        time: "21:30",
       },
       {
-        title: 'Dancing & Celebration',
-        description: 'Party all night!',
-        time: '8:30 PM',
-      },
-    ],
-  },
-  {
-    dayTitle: 'Sunday, June 16',
-    items: [
-      {
-        title: 'Farewell Brunch',
-        description: 'Garden Café - Casual Attire',
-        time: '10:00 AM',
+        title: "Baile",
+        description: "Después de la cena.",
+        time: "Después de la cena",
       },
     ],
   },
 ];
 ---
+
 <!-- Cambiar itinerario -->
 <section id={section.id} class="py-20 md:py-24 bg-ivory">
   <div class="max-w-7xl mx-auto px-4">
@@ -78,33 +60,62 @@ const schedules: ScheduleDay[] = [
     <HeadingTitle title={section.title} />
 
     <!-- Schedule List -->
-    <div class="max-w-4xl mx-auto space-y-6">
-      {schedules.map((day: ScheduleDay) => (
-        <div class="bg-linear-to-br from-mist to-white border-l-4 border-botanical p-8 shadow-sm">
-          <h3 class="font-serif text-3xl font-semibold text-botanical mb-6">
-            {day.dayTitle}
-          </h3>
+    <div class=" mx-auto space-y-6 ">
+      {
+        schedules.map((day: ScheduleDay) => (
+          <div class="bg-linear-to-br from-mist to-white border-l-4 border-botanical p-8 shadow-sm rounded-r-2xl">
+            <h3 class="font-serif text-3xl font-semibold text-botanical mb-6">
+              {day.dayTitle}
+            </h3>
 
-          <div class={day.items.length > 1 ? 'space-y-6' : ''}>
-            {day.items.map((item: ScheduleItem) => (
-              <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div>
-                  <p class="font-semibold text-lg text-botanical">
-                    {item.title}
-                  </p>
-                  <p class="text-gray-600 mt-1">
-                    {item.description}
-                  </p>
+            <div class={day.items.length > 1 ? "space-y-6" : ""}>
+              {day.items.map((item: ScheduleItem) => (
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                  <div>
+                    <p class="font-semibold text-lg text-botanical">
+                      {item.title}
+                    </p>
+                    <p
+                      class="schedule-description text-stone-600 mt-2 text-sm md:text-base leading-relaxed"
+                      set:html={item.description}
+                    />
+                  </div>
+
+                  <span class="font-serif text-2xl text-sage whitespace-nowrap">
+                    {item.time}
+                  </span>
                 </div>
-
-                <span class="font-serif text-2xl text-sage whitespace-nowrap">
-                  {item.time}
-                </span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      }
     </div>
   </div>
 </section>
+
+<style>
+  .schedule-description :global(strong) {
+    color: var(--color-botanical);
+    font-weight: 700;
+  }
+
+  .schedule-description :global(em) {
+    color: var(--color-sage);
+    font-style: italic;
+  }
+
+  .schedule-description :global(ul),
+  .schedule-description :global(ol) {
+    margin-top: 0.5rem;
+    padding-left: 1.25rem;
+  }
+
+  .schedule-description :global(li + li) {
+    margin-top: 0.2rem;
+  }
+
+  .schedule-description :global(br) {
+    line-height: 1.8;
+  }
+</style>
