@@ -1,10 +1,7 @@
 services:
   wedding-web:
     container_name: s-j-wedding
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: s-j-wedding:latest
+    image: ghcr.io/ismola/s-j-wedding:main
     environment:
       HOST: ${HOST:-0.0.0.0}
       PORT: ${PORT:-80}
