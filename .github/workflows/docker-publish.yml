@@ -3,9 +3,8 @@ name: 🚀 Publish
 
 # Este workflow debe ser llamado desde deploy.yml, no ejecutarse directamente
 on:
-  push:
-    branches:
-      - main
+  workflow_call:
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
