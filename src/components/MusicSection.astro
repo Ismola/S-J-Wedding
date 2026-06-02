@@ -9,7 +9,8 @@ const section = {
         "¿Qué canción te gustaría escuchar en la boda? Añádela aquí y la tendremos en cuenta.",
     apiPath: "/api/music",
     listPath: "/musica",
-    spotifyPlaylistUrl: "https://open.spotify.com/playlist/51rYO9yrXB4MRYSDk7zJjI?si=twsbrZtOTY2zJHS98uoo7Q&pt=bdb83d92a72880e7b69b840ae25cceda&pi=Iwb4pFhRTf-eK",
+    spotifyPlaylistUrl:
+        "https://open.spotify.com/playlist/51rYO9yrXB4MRYSDk7zJjI?si=twsbrZtOTY2zJHS98uoo7Q&pt=bdb83d92a72880e7b69b840ae25cceda&pi=Iwb4pFhRTf-eK",
     storageKey: "sj-wedding-music",
 };
 
@@ -81,7 +82,7 @@ const alpineState = `{
 }`;
 ---
 
-<section id={section.id} class="bg-ivory py-20 md:py-24">
+<section id={section.id} class="bg-white py-20 md:py-24">
     <div class="mx-auto max-w-7xl px-4">
         <HeadingTitle
             title={section.title}
@@ -91,13 +92,16 @@ const alpineState = `{
 
         <div class="grid gap-8 lg:grid-cols-[1.4fr_0.9fr]" x-data={alpineState}>
             <div
-                class="rounded-2xl border border-mist bg-white p-6 shadow-sm md:p-8 hover:shadow-2xl transition-all duration-300"
+                class="bg-linear-to-tr from-mist to-white border border-botanical/20 p-6 md:p-8 shadow-sm rounded-2xl hover:shadow-2xl transition-all duration-300"
             >
                 <h3 class="font-serif text-3xl text-botanical">
                     Pide una canción
                 </h3>
                 <p class="mt-2 text-gray-600">
-                    Queremos que saquéis vuestros mejores pasos de baile, así que, si tenéis alguna canción especial para vosotros o alguna canción que os sabéis entera del Just Dance... <br/> <b>No podemos perdérnoslo.</b>
+                    Queremos que saquéis vuestros mejores pasos de baile, así
+                    que, si tenéis alguna canción especial para vosotros o
+                    alguna canción que os sabéis entera del Just Dance... <br />
+                    <b>No podemos perdérnoslo.</b>
                 </p>
 
                 <form class="mt-6 space-y-4" @submit.prevent="saveSong()">
@@ -110,7 +114,7 @@ const alpineState = `{
                             type="text"
                             x-model="guestName"
                             placeholder="Nombre"
-                            class="w-full rounded-lg border border-mist px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sage/30"
+                            class="w-full rounded-lg border border-botanical px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sage/30 placeholder:text-botanical/50"
                         />
                     </div>
 
@@ -123,7 +127,7 @@ const alpineState = `{
                             type="text"
                             x-model="songTitle"
                             placeholder="Título de la canción"
-                            class="w-full rounded-lg border border-mist px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sage/30"
+                            class="w-full rounded-lg border border-botanical px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sage/30 placeholder:text-botanical/50"
                         />
                     </div>
 
@@ -224,7 +228,7 @@ const alpineState = `{
                         </a>
                     </div>
                 </div>
-<!-- 
+                <!-- 
                 <div
                     class="rounded-2xl border border-mist bg-white p-6 shadow-sm"
                 >

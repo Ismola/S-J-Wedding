@@ -10,14 +10,10 @@
 			"enableNonRootDocker": "true",
 			"moby": "true"
 		},
-		"ghcr.io/devcontainers/features/node:2": {},
-		"ghcr.io/tailscale/codespace/tailscale": {
-			"version": "latest"
-		}
+		"ghcr.io/devcontainers/features/node:2": {}
 	},
-	"postCreateCommand": "npm i && sudo tailscale up --hostname=my-devcontainer",
-	
-	"postStartCommand": "docker rm -f s-j-wedding-mongo >/dev/null 2>&1 || true && docker run -d --name mongo -p 27017:27017 -e MONGO_INITDB_DATABASE=sj_wedding mongo:7 >/dev/null",
+	"postCreateCommand": "npm i",
+	"postStartCommand": "docker compose -f compose.yaml up -d mongo",
 	"customizations": {
 		"vscode": {
 			"extensions": [
