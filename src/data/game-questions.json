@@ -1,0 +1,74 @@
+[
+    {
+        "id": 1,
+        "question": "¿Dónde fue la primera cita oficial de Sergio y Judit?",
+        "options": [
+            "Cena en un japonés",
+            "Café y paseo",
+            "Ir al cine",
+            "Tarde de bolos"
+        ],
+        "correctAnswer": 1,
+        "image": "/img/hero_final.webp"
+    },
+    {
+        "id": 2,
+        "question": "¿Cuál de estos planes les gusta más para desconectar?",
+        "options": [
+            "Ruta por la montaña",
+            "Maratón de series",
+            "Viaje relámpago",
+            "Salir de fiesta"
+        ],
+        "correctAnswer": 0,
+        "image": null
+    },
+    {
+        "id": 3,
+        "question": "¿Qué canción no puede faltar en la boda?",
+        "options": [
+            "Vivir Mi Vida",
+            "La Bicicleta",
+            "Nochentera",
+            "Despechá"
+        ],
+        "correctAnswer": 0,
+        "image": null
+    },
+    {
+        "id": 4,
+        "question": "¿Cuál es el mes de la boda?",
+        "options": [
+            "Mayo",
+            "Junio",
+            "Julio",
+            "Agosto"
+        ],
+        "correctAnswer": 1,
+        "image": null
+    },
+    {
+        "id": 5,
+        "question": "¿Qué bebida se asocia más con el brindis inicial?",
+        "options": [
+            "Agua con gas",
+            "Refresco",
+            "Cava",
+            "Zumo"
+        ],
+        "correctAnswer": 2,
+        "image": null
+    },
+    {
+        "id": 6,
+        "question": "¿Qué tipo de juego es este?",
+        "options": [
+            "Respuesta libre",
+            "Tipo test",
+            "Verdadero/Falso",
+            "Memoria visual"
+        ],
+        "correctAnswer": 1,
+        "image": null
+    }
+]

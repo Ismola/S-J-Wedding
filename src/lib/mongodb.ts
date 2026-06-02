@@ -16,6 +16,19 @@ export type MusicEntry = {
     createdAt: string;
 };
 
+export type GameResultEntry = {
+    id?: number;
+    playerName: string;
+    correctAnswers: number;
+    totalQuestions: number;
+    mistakes: Array<{
+        question: string;
+        selectedLabel: string;
+        correctLabel: string;
+    }>;
+    createdAt: string;
+};
+
 const env = getEnv();
 const mongoUri = env.MONGO_URI;
 const dbName = env.MONGO_DB_NAME;
@@ -47,4 +60,13 @@ export async function getMusicCollection() {
 
     const client = await globalForMongo._mongoClientPromise;
     return client.db(dbName).collection<MusicEntry>("music_requests");
+}
+
+export async function getGameResultsCollection() {
+    if (!globalForMongo._mongoClientPromise) {
+        globalForMongo._mongoClientPromise = createMongoClient();
+    }
+
+    const client = await globalForMongo._mongoClientPromise;
+    return client.db(dbName).collection<GameResultEntry>("game_results");
 }

@@ -1,0 +1,553 @@
+---
+import HeadingTitle from "@src/components/HeadingTitle.astro";
+import MainLayout from "@src/layouts/MainLayout.astro";
+import questions from "@src/data/game-questions.json";
+import {
+    WEDDING_DATE_ISO,
+    isWeddingStartedServer,
+} from "@src/lib/wedding-date";
+
+const gameQuestions = Array.isArray(questions) ? questions : [];
+const canPlayNow = isWeddingStartedServer();
+
+const alpineState = `{
+    storageSessionKey: 'sj-wedding-game-session',
+    storageFinalKey: 'sj-wedding-game-finished',
+    storageSavedKey: 'sj-wedding-game-result-saved',
+    availableAt: '${WEDDING_DATE_ISO}',
+    isAvailable: ${canPlayNow ? "true" : "false"},
+    questions: ${JSON.stringify(gameQuestions)},
+    playerName: '',
+    currentIndex: 0,
+    selectedOption: null,
+    answers: [],
+    loadingRanking: false,
+    savingResult: false,
+    error: '',
+    rankingError: '',
+    ranking: [],
+    started: false,
+    finished: false,
+    resultSaved: false,
+    summary: {
+      correctAnswers: 0,
+      totalQuestions: 0,
+      mistakes: []
+    },
+    timerId: null,
+
+    init() {
+      this.updateAvailability();
+      this.restoreState();
+      this.fetchRanking();
+      this.timerId = setInterval(() => this.updateAvailability(), 1000);
+    },
+
+    updateAvailability() {
+      this.isAvailable = Date.now() >= new Date(this.availableAt).getTime();
+    },
+
+    restoreState() {
+      try {
+        const finalResult = localStorage.getItem(this.storageFinalKey);
+        const inProgress = localStorage.getItem(this.storageSessionKey);
+        const saved = localStorage.getItem(this.storageSavedKey);
+
+        this.resultSaved = saved === 'true';
+
+        if (finalResult) {
+          const parsed = JSON.parse(finalResult);
+          this.finished = true;
+          this.started = false;
+          this.playerName = parsed.playerName || '';
+          this.summary = {
+            correctAnswers: Number(parsed.correctAnswers) || 0,
+            totalQuestions: Number(parsed.totalQuestions) || this.questions.length,
+            mistakes: Array.isArray(parsed.mistakes) ? parsed.mistakes : []
+          };
+
+          if (this.isAvailable && !this.resultSaved) {
+            this.persistResult();
+          }
+          return;
+        }
+
+        if (inProgress) {
+          const parsed = JSON.parse(inProgress);
+          this.playerName = parsed.playerName || '';
+          this.currentIndex = Number(parsed.currentIndex) || 0;
+          this.answers = Array.isArray(parsed.answers) ? parsed.answers : [];
+
+          if (this.currentIndex >= this.questions.length && this.questions.length > 0) {
+            this.finishGame();
+            return;
+          }
+
+          this.started = this.playerName.length > 0;
+        }
+      } catch (error) {
+        console.error('No se pudo restaurar la sesion del juego.', error);
+        this.resetLocalData();
+      }
+    },
+
+    saveSession() {
+      const session = {
+        playerName: this.playerName,
+        currentIndex: this.currentIndex,
+        answers: this.answers,
+        updatedAt: new Date().toISOString(),
+      };
+      localStorage.setItem(this.storageSessionKey, JSON.stringify(session));
+    },
+
+    resetLocalData() {
+      localStorage.removeItem(this.storageSessionKey);
+      localStorage.removeItem(this.storageFinalKey);
+      localStorage.removeItem(this.storageSavedKey);
+    },
+
+    startGame() {
+      this.error = '';
+      this.playerName = this.playerName.trim();
+
+      if (!this.isAvailable) {
+        this.error = 'El juego aun no esta disponible.';
+        return;
+      }
+
+      if (!this.playerName) {
+        this.error = 'Debes poner tu nombre para empezar.';
+        return;
+      }
+
+      if (this.questions.length === 0) {
+        this.error = 'No hay preguntas disponibles para jugar en este momento.';
+        return;
+      }
+
+      if (this.finished) {
+        this.error = 'Ya has terminado este juego y no se puede repetir.';
+        return;
+      }
+
+      this.started = true;
+      this.saveSession();
+    },
+
+    get currentQuestion() {
+      return this.questions[this.currentIndex] || null;
+    },
+
+    chooseOption(index) {
+      this.selectedOption = index;
+    },
+
+    submitAnswer() {
+      this.error = '';
+
+      if (this.selectedOption === null) {
+        this.error = 'Selecciona una opcion para continuar.';
+        return;
+      }
+
+      const question = this.currentQuestion;
+      if (!question) {
+        return;
+      }
+
+      const answer = {
+        questionId: question.id,
+        question: question.question,
+        options: question.options,
+        correctAnswer: question.correctAnswer,
+        selectedOption: this.selectedOption,
+      };
+
+      this.answers = [...this.answers, answer];
+      this.selectedOption = null;
+      this.currentIndex += 1;
+      this.saveSession();
+
+      if (this.currentIndex >= this.questions.length) {
+        this.finishGame();
+      }
+    },
+
+    finishGame() {
+      const mistakes = this.answers
+        .filter((answer) => answer.selectedOption !== answer.correctAnswer)
+        .map((answer) => ({
+          question: answer.question,
+          selectedLabel: answer.options[answer.selectedOption] || 'Sin respuesta',
+          correctLabel: answer.options[answer.correctAnswer] || 'Sin respuesta',
+        }));
+
+      const correctAnswers = this.answers.length - mistakes.length;
+
+      this.summary = {
+        correctAnswers,
+        totalQuestions: this.questions.length,
+        mistakes,
+      };
+
+      this.finished = true;
+      this.started = false;
+
+      localStorage.setItem(
+        this.storageFinalKey,
+        JSON.stringify({
+          playerName: this.playerName,
+          correctAnswers: this.summary.correctAnswers,
+          totalQuestions: this.summary.totalQuestions,
+          mistakes: this.summary.mistakes,
+          createdAt: new Date().toISOString(),
+        }),
+      );
+      localStorage.removeItem(this.storageSessionKey);
+
+      this.persistResult();
+      this.fetchRanking();
+    },
+
+    async persistResult() {
+      if (this.resultSaved) {
+        return;
+      }
+
+      this.savingResult = true;
+
+      try {
+        const response = await fetch('/api/game-results', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: Date.now(),
+            playerName: this.playerName,
+            correctAnswers: this.summary.correctAnswers,
+            totalQuestions: this.summary.totalQuestions,
+            mistakes: this.summary.mistakes,
+            createdAt: new Date().toISOString(),
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('No se pudo guardar el resultado');
+        }
+
+        this.resultSaved = true;
+        localStorage.setItem(this.storageSavedKey, 'true');
+      } catch (error) {
+        console.error(error);
+        this.error = 'Tu resultado se ha guardado en este dispositivo, pero no se pudo sincronizar ahora.';
+      } finally {
+        this.savingResult = false;
+      }
+    },
+
+    async fetchRanking() {
+      this.rankingError = '';
+      this.loadingRanking = true;
+
+      try {
+        const response = await fetch('/api/game-results');
+        if (!response.ok) {
+          throw new Error('No se pudo cargar el ranking');
+        }
+
+        const data = await response.json();
+        this.ranking = Array.isArray(data) ? data : [];
+      } catch (error) {
+        console.error(error);
+        this.rankingError = 'No se pudo cargar el ranking por ahora.';
+      } finally {
+        this.loadingRanking = false;
+      }
+    },
+  }`;
+---
+
+<MainLayout
+    title="Juego de la boda | Sergio & Judit"
+    description="Juego tipo test de Sergio y Judit."
+>
+    <section class="bg-ivory py-20 md:py-24">
+        <div class="mx-auto max-w-5xl px-4" x-data={alpineState}>
+            <HeadingTitle
+                title="Juego de la boda"
+                description="Responde pregunta a pregunta y descubre tu puntuacion final."
+                align="center"
+            />
+
+            <div
+                class="rounded-2xl border border-mist bg-white p-6 shadow-sm md:p-8"
+            >
+                <template x-if="!isAvailable && !finished">
+                    <div>
+                        <p
+                            class="text-center text-lg font-semibold text-botanical"
+                        >
+                            El juego aun no esta disponible.
+                        </p>
+                    </div>
+                </template>
+
+                <template x-if="isAvailable && !started && !finished">
+                    <div class="mx-auto max-w-xl">
+                        <h3
+                            class="text-center font-serif text-3xl text-botanical"
+                        >
+                            Debes poner tu nombre
+                        </h3>
+                        <p class="mt-2 text-center text-gray-600">
+                            Solo podras completar el juego una vez en este
+                            dispositivo.
+                        </p>
+
+                        <div class="mt-6">
+                            <label
+                                class="mb-2 block text-sm font-medium text-botanical"
+                                for="player-name"
+                            >
+                                Tu nombre
+                            </label>
+                            <input
+                                id="player-name"
+                                type="text"
+                                x-model="playerName"
+                                placeholder="Escribe tu nombre"
+                                class="w-full rounded-lg border border-mist px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sage/30"
+                            />
+                        </div>
+
+                        <p
+                            x-show="error"
+                            x-text="error"
+                            class="mt-4 text-sm font-medium text-rose-700"
+                        >
+                        </p>
+
+                        <button
+                            type="button"
+                            @click="startGame()"
+                            class="mt-5 w-full rounded-lg bg-botanical px-5 py-3 text-white transition-all hover:bg-botanical/90"
+                        >
+                            Empezar juego
+                        </button>
+                    </div>
+                </template>
+
+                <template x-if="isAvailable && started && !finished">
+                    <div>
+                        <div
+                            class="mb-4 flex items-center justify-between gap-3 text-sm text-gray-600"
+                        >
+                            <p>
+                                Jugador: <span
+                                    class="font-semibold text-botanical"
+                                    x-text="playerName"></span>
+                            </p>
+                            <p>
+                                Pregunta <span x-text="currentIndex + 1"></span> de
+                                <span x-text="questions.length"></span>
+                            </p>
+                        </div>
+
+                        <template x-if="currentQuestion">
+                            <div>
+                                <h3
+                                    class="font-serif text-3xl text-botanical"
+                                    x-text="currentQuestion.question"
+                                >
+                                </h3>
+
+                                <template x-if="currentQuestion.image">
+                                    <img
+                                        :src="currentQuestion.image"
+                                        alt="Imagen de apoyo de la pregunta"
+                                        class="mt-5 h-auto w-full rounded-xl border border-mist object-cover"
+                                    />
+                                </template>
+
+                                <div class="mt-6 space-y-3">
+                                    <template
+                                        x-for="(option, optionIndex) in currentQuestion.options"
+                                        :key="optionIndex"
+                                    >
+                                        <button
+                                            type="button"
+                                            @click="chooseOption(optionIndex)"
+                                            class="w-full rounded-lg border px-4 py-3 text-left transition-all"
+                                            :class="selectedOption === optionIndex ? 'border-botanical bg-mist/40 text-botanical' : 'border-mist hover:border-sage'"
+                                        >
+                                            <span x-text="option"></span>
+                                        </button>
+                                    </template>
+                                </div>
+
+                                <p
+                                    x-show="error"
+                                    x-text="error"
+                                    class="mt-4 text-sm font-medium text-rose-700"
+                                >
+                                </p>
+
+                                <button
+                                    type="button"
+                                    @click="submitAnswer()"
+                                    class="mt-6 rounded-lg bg-botanical px-5 py-3 text-white transition-all hover:bg-botanical/90"
+                                >
+                                    Responder y continuar
+                                </button>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <template x-if="finished">
+                    <div>
+                        <h3 class="font-serif text-3xl text-botanical">
+                            Resultado final
+                        </h3>
+                        <p class="mt-2 text-gray-700">
+                            Has acertado
+                            <span
+                                class="font-semibold text-botanical"
+                                x-text="summary.correctAnswers"></span>
+                            de
+                            <span
+                                class="font-semibold text-botanical"
+                                x-text="summary.totalQuestions"></span>
+                            preguntas.
+                        </p>
+
+                        <div
+                            class="mt-5 rounded-xl border border-mist bg-mist/30 p-4 text-sm text-gray-700"
+                        >
+                            <p class="font-semibold text-botanical">
+                                Fallos y respuesta correcta
+                            </p>
+
+                            <template x-if="summary.mistakes.length === 0">
+                                <p class="mt-2">
+                                    No has fallado ninguna. Marcador perfecto.
+                                </p>
+                            </template>
+
+                            <div
+                                class="mt-3 space-y-3"
+                                x-show="summary.mistakes.length > 0"
+                            >
+                                <template
+                                    x-for="(mistake, idx) in summary.mistakes"
+                                    :key="idx"
+                                >
+                                    <div
+                                        class="rounded-lg border border-mist bg-white p-3"
+                                    >
+                                        <p
+                                            class="font-medium text-gray-800"
+                                            x-text="mistake.question"
+                                        >
+                                        </p>
+                                        <p class="mt-1 text-rose-700">
+                                            Tu respuesta: <span
+                                                x-text="mistake.selectedLabel"
+                                            ></span>
+                                        </p>
+                                        <p class="text-green-700">
+                                            Correcta: <span
+                                                x-text="mistake.correctLabel"
+                                            ></span>
+                                        </p>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <p
+                            x-show="savingResult"
+                            class="mt-4 text-sm text-gray-500"
+                        >
+                            Guardando resultado...
+                        </p>
+                        <p
+                            x-show="error"
+                            x-text="error"
+                            class="mt-4 text-sm font-medium text-rose-700"
+                        >
+                        </p>
+
+                        <div
+                            class="mt-8 rounded-2xl border border-mist bg-white p-5"
+                        >
+                            <div class="mb-3 flex items-center justify-between">
+                                <h4 class="font-serif text-2xl text-botanical">
+                                    Ranking
+                                </h4>
+                                <button
+                                    type="button"
+                                    @click="fetchRanking()"
+                                    class="rounded-md border border-mist px-3 py-1 text-sm text-botanical transition-all hover:bg-mist/30"
+                                >
+                                    Actualizar
+                                </button>
+                            </div>
+
+                            <p
+                                x-show="loadingRanking"
+                                class="text-sm text-gray-500"
+                            >
+                                Cargando ranking...
+                            </p>
+                            <p
+                                x-show="rankingError"
+                                x-text="rankingError"
+                                class="text-sm font-medium text-rose-700"
+                            >
+                            </p>
+
+                            <template
+                                x-if="!loadingRanking && ranking.length === 0 && !rankingError"
+                            >
+                                <p class="text-sm text-gray-600">
+                                    Todavia no hay resultados en el ranking.
+                                </p>
+                            </template>
+
+                            <div class="space-y-2" x-show="ranking.length > 0">
+                                <template
+                                    x-for="(entry, index) in ranking"
+                                    :key="entry.id || index"
+                                >
+                                    <div
+                                        class="flex items-center justify-between rounded-lg border border-mist px-3 py-2 text-sm"
+                                    >
+                                        <p>
+                                            <span
+                                                class="font-semibold text-botanical"
+                                                x-text="index + 1"></span>
+                                            .
+                                            <span
+                                                class="font-semibold text-gray-800"
+                                                x-text="entry.playerName"
+                                            ></span>
+                                        </p>
+                                        <p class="font-semibold text-botanical">
+                                            <span x-text="entry.correctAnswers"
+                                            ></span>/<span
+                                                x-text="entry.totalQuestions"
+                                            ></span>
+                                        </p>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </section>
+</MainLayout>

@@ -1,0 +1,90 @@
+---
+import HeadingTitle from "./HeadingTitle.astro";
+import { WEDDING_DATE_ISO } from "@src/lib/wedding-date";
+
+const section = {
+    id: "game",
+    title: "Juego de la boda",
+    description:
+        "¿Cuánto sabes sobre nosotros? Pon a prueba tu memoria con un mini test.",
+    gamePath: "/juego",
+};
+---
+
+<section id={section.id} class="bg-ivory py-20 md:py-24">
+    <div class="mx-auto max-w-7xl px-4">
+        <HeadingTitle
+            title={section.title}
+            description={section.description}
+            align="center"
+        />
+
+        <div
+            class="mx-auto max-w-3xl rounded-2xl border border-mist bg-white p-6 text-center shadow-sm md:p-8 hover:shadow-2xl transition-all duration-300"
+        >
+            <p class="text-lg text-gray-700">
+                Cuando llegue el gran momento, podrás jugar y entrar en el
+                ranking.
+            </p>
+            <p class="mt-3 text-sm text-gray-500">
+                El juego se activa automáticamente cuando termina el contador
+                principal.
+            </p>
+
+            <div class="mt-6">
+                <a
+                    data-game-link
+                    href={section.gamePath}
+                    class="inline-flex items-center justify-center rounded-lg bg-botanical px-5 py-3 text-white transition-all hover:bg-botanical/90"
+                >
+                    Iniciar juego
+                </a>
+            </div>
+
+            <p data-game-status class="mt-4 text-sm font-medium text-amber-700">
+                Juego bloqueado hasta el inicio de la boda.
+            </p>
+        </div>
+    </div>
+</section>
+
+<script define:vars={{ targetDate: WEDDING_DATE_ISO }}>
+    const link = document.querySelector("[data-game-link]");
+    const status = document.querySelector("[data-game-status]");
+    const targetTime = new Date(targetDate).getTime();
+
+    const applyState = () => {
+        const available = Date.now() >= targetTime;
+
+        if (!link || !status) return;
+
+        if (available) {
+            link.classList.remove(
+                "pointer-events-none",
+                "opacity-60",
+                "cursor-not-allowed",
+            );
+            link.setAttribute("href", "/juego");
+            link.removeAttribute("aria-disabled");
+            status.textContent =
+                "El juego ya esta disponible. Puedes jugar ahora.";
+            status.classList.remove("text-amber-700");
+            status.classList.add("text-green-700");
+            return;
+        }
+
+        link.classList.add(
+            "pointer-events-none",
+            "opacity-60",
+            "cursor-not-allowed",
+        );
+        link.setAttribute("href", "#game");
+        link.setAttribute("aria-disabled", "true");
+        status.textContent = "Juego bloqueado hasta el inicio de la boda.";
+        status.classList.add("text-amber-700");
+        status.classList.remove("text-green-700");
+    };
+
+    applyState();
+    setInterval(applyState, 1000);
+</script>
