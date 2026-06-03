@@ -1,74 +1,122 @@
 [
     {
         "id": 1,
-        "question": "¿Dónde fue la primera cita oficial de Sergio y Judit?",
+        "question": "¿Qué es esto?",
         "options": [
-            "Cena en un japonés",
-            "Café y paseo",
-            "Ir al cine",
-            "Tarde de bolos"
+            "Plaza de las Cortes en Palmitos Park",
+            "Plaza Mayor en Jardín Botánico de la Orotava",
+            "Plaza Cervantes en Loro parque",
+            "Plaza de las Cortes en Loro Parque"
         ],
-        "correctAnswer": 1,
-        "image": "/img/hero_final.webp"
+        "correctAnswer": 2,
+        "image": "/img/game/1.jpeg"
     },
     {
         "id": 2,
-        "question": "¿Cuál de estos planes les gusta más para desconectar?",
+        "question": "¿Qué es esto?",
         "options": [
-            "Ruta por la montaña",
-            "Maratón de series",
-            "Viaje relámpago",
-            "Salir de fiesta"
+            "Madrid Río en Aqualand Adeje",
+            "Plaza España en Aqualand Adeje",
+            "Plaza España en Siam Park ",
+            "Plaza Colón en Siam Park"
         ],
-        "correctAnswer": 0,
-        "image": null
+        "correctAnswer": 3,
+        "image": "/img/game/2.jpeg"
     },
     {
         "id": 3,
-        "question": "¿Qué canción no puede faltar en la boda?",
+        "question": "¿Qué es esto?",
         "options": [
-            "Vivir Mi Vida",
-            "La Bicicleta",
-            "Nochentera",
-            "Despechá"
+            "Plaza Castilla en Cañón del Colorado",
+            "Plaza Mayor en  Barranco de las Vacas ",
+            "Plaza del Sol en Barranco de las Vacas ",
+            "Plaza de Callao en Barranco de Azuaje"
         ],
-        "correctAnswer": 0,
-        "image": null
+        "correctAnswer": 2,
+        "image": "/img/game/3.jpeg"
     },
     {
         "id": 4,
-        "question": "¿Cuál es el mes de la boda?",
+        "question": "¿Qué es esto?",
         "options": [
-            "Mayo",
-            "Junio",
-            "Julio",
-            "Agosto"
+            "Templo de Kops en Timanfaya",
+            "Templo de Debod en Desierto de La Palma",
+            "Templo de Debod en Timanfaya",
+            "Esfinge de Guiza en Torrejón"
         ],
-        "correctAnswer": 1,
-        "image": null
+        "correctAnswer": 2,
+        "image": "/img/game/4.jpeg"
     },
     {
         "id": 5,
-        "question": "¿Qué bebida se asocia más con el brindis inicial?",
+        "question": "¿Qué es esto?",
         "options": [
-            "Agua con gas",
-            "Refresco",
-            "Cava",
-            "Zumo"
+            "Plaza Republica Argentina en los Jameos del agua ",
+            "Plaza Dos de Mayo en Anfi ",
+            "Plaza Republica Argentina en Arguineguín ",
+            "Plaza Colón en los Jameos del agua"
         ],
-        "correctAnswer": 2,
-        "image": null
+        "correctAnswer": 0,
+        "image": "/img/game/5.jpeg"
     },
     {
         "id": 6,
-        "question": "¿Qué tipo de juego es este?",
+        "question": "¿Qué es esto?",
         "options": [
-            "Respuesta libre",
-            "Tipo test",
-            "Verdadero/Falso",
-            "Memoria visual"
+            "Torre Kio en el Teide",
+            "Torre Europa en el Teide",
+            "Torre Banco Bilbao en el Teide ",
+            "Torre Picasso en el Teide"
+        ],
+        "correctAnswer": 3,
+        "image": "/img/game/6.jpeg"
+    },
+    {
+        "id": 7,
+        "question": "¿Qué es esto?",
+        "options": [
+            "El Oso y el Pino en Las Canteras",
+            "El Koala y el Eucalipto en Arguineguín",
+            "El Oso y el Madroño en Las Canteras",
+            "El Oso y el Madroño en Las Américas"
+        ],
+        "correctAnswer": 2,
+        "image": "/img/game/7.jpeg"
+    },
+    {
+        "id": 8,
+        "question": "¿Qué es esto?",
+        "options": [
+            "Chamartín en Maspalomas ",
+            "Chamberí en Patalavaca",
+            "Chamberí en Maspalomas ",
+            "Chueca en Playa del Inglés"
+        ],
+        "correctAnswer": 2,
+        "image": "/img/game/8.jpeg"
+    },
+    {
+        "id": 9,
+        "question": "¿Qué es esto?",
+        "options": [
+            "Roque Nublo en el Retiro",
+            "Pico de las Nieves en Sacedón",
+            "Roque Nublo en Buitrago de Lozoya",
+            "Pico de las Nieves en el Retiro"
+        ],
+        "correctAnswer": 0,
+        "image": "/img/game/9.jpeg"
+    },
+    {
+        "id": 10,
+        "question": "¿Qué es esto?",
+        "options": [
+            "Drago milenario en parque del capricho",
+            "Drago centenario en parque Juan Carlos I",
+            "Cardón milenario en parque del capricho ",
+            "Cardón milenario en parque Juan Carlos I"
         ],
         "correctAnswer": 1,
-        "image": null
+        "image": "/img/game/10.jpeg"
     }
 ]
