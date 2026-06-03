@@ -17,7 +17,7 @@
         "options": [
             "Madrid Río en Aqualand Adeje",
             "Plaza España en Aqualand Adeje",
-            "Plaza España en Siam Park ",
+            "Plaza España en Siam Park",
             "Plaza Colón en Siam Park"
         ],
         "correctAnswer": 3,
@@ -28,8 +28,8 @@
         "question": "¿Qué es esto?",
         "options": [
             "Plaza Castilla en Cañón del Colorado",
-            "Plaza Mayor en  Barranco de las Vacas ",
-            "Plaza del Sol en Barranco de las Vacas ",
+            "Plaza Mayor en  Barranco de las Vacas",
+            "Plaza del Sol en Barranco de las Vacas",
             "Plaza de Callao en Barranco de Azuaje"
         ],
         "correctAnswer": 2,
@@ -51,9 +51,9 @@
         "id": 5,
         "question": "¿Qué es esto?",
         "options": [
-            "Plaza Republica Argentina en los Jameos del agua ",
-            "Plaza Dos de Mayo en Anfi ",
-            "Plaza Republica Argentina en Arguineguín ",
+            "Plaza Republica Argentina en los Jameos del agua",
+            "Plaza Dos de Mayo en Anfi",
+            "Plaza Republica Argentina en Arguineguín",
             "Plaza Colón en los Jameos del agua"
         ],
         "correctAnswer": 0,
@@ -65,7 +65,7 @@
         "options": [
             "Torre Kio en el Teide",
             "Torre Europa en el Teide",
-            "Torre Banco Bilbao en el Teide ",
+            "Torre Banco Bilbao en el Teide",
             "Torre Picasso en el Teide"
         ],
         "correctAnswer": 3,
@@ -87,9 +87,9 @@
         "id": 8,
         "question": "¿Qué es esto?",
         "options": [
-            "Chamartín en Maspalomas ",
+            "Chamartín en Maspalomas",
             "Chamberí en Patalavaca",
-            "Chamberí en Maspalomas ",
+            "Chamberí en Maspalomas",
             "Chueca en Playa del Inglés"
         ],
         "correctAnswer": 2,
@@ -111,9 +111,9 @@
         "id": 10,
         "question": "¿Qué es esto?",
         "options": [
-            "Drago milenario en parque del capricho",
-            "Drago centenario en parque Juan Carlos I",
-            "Cardón milenario en parque del capricho ",
+            "Drago centenario en parque del capricho",
+            "Drago milenario en parque Juan Carlos I",
+            "Cardón centenario en parque del capricho",
             "Cardón milenario en parque Juan Carlos I"
         ],
         "correctAnswer": 1,
