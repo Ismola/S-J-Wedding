@@ -2,6 +2,7 @@
 interface NotificationItem {
   id: string;
   message: string;
+  targetDate?: string; // ISO string. If omitted, the countdown targetDate is used.
 }
 
 export interface CountdownProps {
@@ -16,9 +17,11 @@ export interface CountdownProps {
   notifications?: NotificationItem[];
 }
 
+const defaultTargetDate = "2026-06-20T15:00:00";
+
 // Default props
 const {
-  targetDate = "2026-06-15T15:00:00",
+  targetDate = defaultTargetDate,
   labels = {
     days: "Días",
     hours: "Horas",
@@ -29,8 +32,15 @@ const {
   notifications = [
     {
       id: "pre-wedding-photo",
+      targetDate: "2026-06-19T15:00:00",
       message:
         "Nos gustaría tener alguna foto tuya antes de la boda. Si quieres compartirla, por favor envíala a través de WhatsApp. \n¡Muchas gracias! ❤️",
+    },
+    {
+      id: "game",
+      targetDate: "2026-06-21T15:00:00",
+      message:
+        "¿Eres un verdadero <b>CHULAPION?</b> Compruébalo jugando al juego que hemos preparado para ti. <br/> <br/> <a class='bg-white text-botanical px-4 py-2 rounded ' href='/#game'>¡Jugar! 🎮</a>",
     },
   ] as NotificationItem[],
 } = Astro.props;
@@ -48,6 +58,7 @@ const countdownId = `countdown-${Math.random().toString(36).slice(2)}`;
         {notifications.map((notification: NotificationItem) => (
           <div
             data-notification={notification.id}
+            data-notification-target-date={notification.targetDate ?? targetDate}
             class="hidden relative w-[calc(100vw-1.5rem)] md:w-full max-w-md rounded-2xl border border-white/40 bg-botanical/85 backdrop-blur-lg p-4 md:p-5 text-left text-white shadow-2xl pointer-events-auto"
           >
             <button
@@ -58,9 +69,10 @@ const countdownId = `countdown-${Math.random().toString(36).slice(2)}`;
             >
               ×
             </button>
-            <p class="pr-10 text-sm md:text-base leading-relaxed whitespace-pre-line">
-              {notification.message}
-            </p>
+            <p
+              class="pr-10 text-sm md:text-base leading-relaxed whitespace-pre-line "
+              set:html={notification.message}
+            ></p>
           </div>
         ))}
       </div>
@@ -142,7 +154,20 @@ const countdownId = `countdown-${Math.random().toString(36).slice(2)}`;
     const pad = (n) => (n < 10 ? "0" + n : n);
     const storagePrefix = "wedding-notification-dismissed:";
 
-    const updateNotifications = (isActive) => {
+    const getNotificationTargetTime = (item) => {
+      const notificationTargetDate = item.getAttribute(
+        "data-notification-target-date",
+      );
+      const notificationTargetTime = new Date(
+        notificationTargetDate || targetDate,
+      ).getTime();
+
+      return Number.isNaN(notificationTargetTime)
+        ? targetTime
+        : notificationTargetTime;
+    };
+
+    const updateNotifications = (now = Date.now()) => {
       let visibleCount = 0;
 
       notificationItems.forEach((item) => {
@@ -151,13 +176,15 @@ const countdownId = `countdown-${Math.random().toString(36).slice(2)}`;
 
         const isDismissed =
           localStorage.getItem(`${storagePrefix}${id}`) === "true";
-        const shouldShow = isActive && !isDismissed;
+        const notificationTargetTime = getNotificationTargetTime(item);
+        const shouldShow = now < notificationTargetTime && !isDismissed;
 
         item.classList.toggle("hidden", !shouldShow);
         if (shouldShow) visibleCount += 1;
       });
 
       notificationsWrapper?.classList.toggle("hidden", visibleCount === 0);
+      return visibleCount;
     };
 
     closeButtons.forEach((button) => {
@@ -166,20 +193,20 @@ const countdownId = `countdown-${Math.random().toString(36).slice(2)}`;
         if (!id) return;
 
         localStorage.setItem(`${storagePrefix}${id}`, "true");
-        updateNotifications(targetTime - Date.now() > 0);
+        updateNotifications();
       });
     });
 
     const updateCountdown = () => {
       const now = Date.now();
       const distance = targetTime - now;
+      const visibleNotifications = updateNotifications(now);
 
       if (distance <= 0) {
         container.classList.add("hidden");
         canaryNote?.classList.add("hidden");
         message?.classList.remove("hidden");
-        updateNotifications(false);
-        return false;
+        return visibleNotifications > 0;
       }
 
       canaryNote?.classList.remove("hidden");
@@ -193,17 +220,16 @@ const countdownId = `countdown-${Math.random().toString(36).slice(2)}`;
       elements.hours.textContent = pad(hours);
       elements.minutes.textContent = pad(minutes);
       elements.seconds.textContent = pad(seconds);
-      updateNotifications(true);
 
       return true;
     };
 
-    const isActive = updateCountdown();
+    const shouldContinueUpdating = updateCountdown();
 
-    if (isActive) {
+    if (shouldContinueUpdating) {
       const timer = setInterval(() => {
-        const stillActive = updateCountdown();
-        if (!stillActive) clearInterval(timer);
+        const shouldKeepUpdating = updateCountdown();
+        if (!shouldKeepUpdating) clearInterval(timer);
       }, 1000);
     }
   }
