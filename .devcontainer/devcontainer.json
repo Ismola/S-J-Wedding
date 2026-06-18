@@ -10,7 +10,7 @@
 			"enableNonRootDocker": "true",
 			"moby": "true"
 		},
-		"ghcr.io/devcontainers/features/node:2": {}
+		"ghcr.io/devcontainers/features/node:": {}
 	},
 	"postCreateCommand": "npm i",
 	"postStartCommand": "docker compose -f compose.yaml up -d mongo",
