@@ -14,7 +14,7 @@ export const GET: APIRoute = async () => {
         const ranking = await collection
             .find({}, { projection: { _id: 0 } })
             .sort({ correctAnswers: -1 })
-            .limit(20)
+            .limit(20000)
             .toArray();
 
         return new Response(JSON.stringify(ranking), {
