@@ -44,7 +44,7 @@ const {
       <!-- Desktop Menu -->
       <nav
         id="desktop-navbar"
-        class="hidden lg:flex lg:items-center desktop-navbar"
+        class="hidden xl:flex xl:items-center desktop-navbar"
       >
         {
           menu.map((item: MenuItem) => (
@@ -58,7 +58,7 @@ const {
       <!-- Mobile Toggle Button -->
       <button
         @click="open = !open"
-        class="lg:hidden text-botanical"
+        class="xl:hidden text-botanical"
         aria-label="Toggle menu"
       >
         <!-- Hamburger -->
@@ -78,7 +78,7 @@ const {
       id="mobile-navbar"
       x-show="open"
       x-transition
-      class="lg:hidden pb-6 space-y-4 mobile-navbar"
+      class="xl:hidden pb-6 space-y-4 mobile-navbar"
       style="display: none;"
     >
       {
